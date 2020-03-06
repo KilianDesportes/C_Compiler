@@ -1,0 +1,29 @@
+%{
+#include <stdio.h>
+
+ 
+yyerror (char const *s)
+{
+  fprintf (stderr, "%s\n", s);
+}
+
+%}
+%token tINT tMAIN tCONST tPARFERM tPAROUVR tCROFERM tCROOUVR tACOFERM tACOOUVR tCHAR tMUL tNEWLINE tTAB tBACKSPACE tPLUS tMOINS tPRINTF tDIVISER tEGAL tPTVIRGULE tESPACE tVIRGULE tPOINT tVAR tNBR
+
+%%
+
+start : tINT tMAIN tPAROUVR tPARFERM tACOOUVR tACOFERM;
+rBODY : rEXPR | ;
+rEXPR : rDECL | rOPERATION | rFONC ;
+rINT : tINT | tCONST tINT ;
+rDECL : rINT tVAR tPTVIRGULE | rINT tVAR tEGAL rNBR tPTVIRGULE;
+rNBR : tNBR | tNBR rOPERANDES rNBR;
+rOPERANDES : tPLUS | tMOINS | tDIVISER | tMUL ; 
+rOPERATION : tVAR rOPERANDES rOPERATION ;
+rFONC : tPRINTF 
+
+%% 
+
+int main(){
+    yyparse();
+}
