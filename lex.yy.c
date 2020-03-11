@@ -867,7 +867,7 @@ return tPOINT;
 case 24:
 YY_RULE_SETUP
 #line 31 "sourcev2"
-return tVAR;
+printf("%s", yytext);
 	YY_BREAK
 case 25:
 YY_RULE_SETUP

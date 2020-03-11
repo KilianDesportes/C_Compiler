@@ -1,23 +1,32 @@
 %{
 #include <stdio.h>
-
+#include <stdlib.h>
+extern FILE* yyin;
+extern FILE* yyout;
  
-yyerror (char const *s)
+yyerror (int s)
 {
   fprintf (stderr, "%s\n", s);
 }
 
 %}
+
 %token tINT tMAIN tCONST tPARFERM tPAROUVR tCROFERM tCROOUVR tACOFERM tACOOUVR tCHAR tMUL tNEWLINE tTAB tBACKSPACE tPLUS tMOINS tPRINTF tDIVISER tEGAL tPTVIRGULE tESPACE tVIRGULE tPOINT tVAR tNBR
 
 %%
 
-start : tINT rMAIN 
+start : tINT { printf("int "); } 
+        rMAIN 
       | rMAIN 
       | rBODY
       ;
 
-rMAIN : tMAIN tPAROUVR tPARFERM tACOOUVR rBODY tACOFERM 
+rMAIN : tMAIN { printf("main "); } 
+        tPAROUVR { printf("parouvr "); } 
+        tPARFERM { printf("parferm "); } 
+        tACOOUVR { printf("acoouvr "); } 
+        rBODY 
+        tACOFERM { printf("acoferm "); } 
       ;
 
 rBODY : rEXPR 
@@ -30,45 +39,78 @@ rEXPR : rDECL rEXPR
       | 
       ;
 
-rINT : tINT 
-     | tCONST tINT 
+rINT : tINT { printf("int "); } 
+     | tCONST {printf("const");}
+       tINT { printf("int"); } 
      ;
 
-rDECL : rINT tVAR tPTVIRGULE 
-      | rINT tVAR rMULTIPLEVAR tPTVIRGULE 
+rDECL : rINT 
+        tVAR {printf("%d",$1);}
+        tPTVIRGULE 
+      | rINT 
+        tVAR { printf("%d",$2); } 
+        rMULTIPLEVAR 
+        tPTVIRGULE { printf(";\n"); } 
       ;
 
-rAFFECT : rINT tVAR tEGAL rNBR tPTVIRGULE 
-        | tVAR tEGAL rNBR tPTVIRGULE 
-        | rINT tVAR rMULTIPLEVAR tEGAL rNBR tPTVIRGULE
-        | tVAR rMULTIPLEVAR tEGAL rNBR tPTVIRGULE
+rAFFECT : rINT 
+          tVAR {printf("var");} 
+          tEGAL {printf("=");} 
+          rNBR 
+          tPTVIRGULE {printf(";");} 
+        | tVAR {printf("var");} 
+          tEGAL {printf("=");} 
+          rNBR 
+          tPTVIRGULE {printf(";");} 
+        | rINT 
+          tVAR {printf("var");} 
+          rMULTIPLEVAR 
+          tEGAL {printf("=");} 
+          rNBR 
+          tPTVIRGULE {printf(";");} 
+        | tVAR {printf("var");} 
+          rMULTIPLEVAR 
+          tEGAL  {printf("=");} 
+          rNBR 
+          tPTVIRGULE {printf(";");} 
         ;
 
-rMULTIPLEVAR : tVIRGULE tVAR rMULTIPLEVAR 
+rMULTIPLEVAR : tVIRGULE 
+               tVAR { printf(",%d",$2); } 
+               rMULTIPLEVAR 
              | 
              ;
 
-rPRINTF : tPRINTF tPAROUVR rTEXTE tPARFERM tPTVIRGULE { printf("%d\n",$3); }
+rPRINTF : tPRINTF { printf("printf"); } 
+          tPAROUVR { printf("parouvr"); } 
+          rTEXTE { printf("texte"); }
+          tPARFERM { printf("parferm"); } 
+          tPTVIRGULE { printf(";\n"); } 
         ;
 
-rNBR : tVAR 
-      | tNBR 
-      | rNBR rOPERATOR rNBR 
-      | tPAROUVR rNBR tPARFERM 
+rNBR : tVAR {printf("var");}
+      | tNBR {printf("nbr");}
+      | rNBR 
+        rOPERATOR 
+        rNBR 
+      | tPAROUVR  { printf("parouvr"); } 
+        rNBR 
+        tPARFERM { printf("parferm"); } 
       ;
 
-rOPERATOR : tPLUS 
-          | tMOINS 
-          | tMUL 
-          | tDIVISER 
+rOPERATOR : tPLUS { printf("+"); } 
+          | tMOINS { printf("-"); } 
+          | tMUL { printf("*"); } 
+          | tDIVISER { printf("/"); }  
           ; 
 
-rTEXTE : tVAR rTEXTE 
-       | tVAR 
+rTEXTE : tVAR {printf("var");}
+         rTEXTE 
+       | tVAR {printf("var");}
        ;
 
 %% 
 
-int main(){
+int main(int argc, char* argv){
     yyparse();
 }

@@ -10,11 +10,16 @@ Terminaux inutilisés dans la grammaire
    tPOINT
 
 
+La règle est inutile dans l'analyseur à cause de conflits
+
+   15 $@2: %empty
+
+
 État 0 conflits: 1 réduction/réduction
 État 5 conflits: 1 décalage/réduction
-État 22 conflits: 2 décalage/réduction
+État 22 conflits: 2 décalage/réduction, 1 réduction/réduction
 État 39 conflits: 1 réduction/réduction
-État 57 conflits: 4 décalage/réduction
+État 68 conflits: 4 décalage/réduction
 
 
 Grammaire
@@ -38,31 +43,48 @@ Grammaire
    11 rINT: tINT
    12     | tCONST tINT
 
-   13 rDECL: rINT tVAR tPTVIRGULE
-   14      | rINT tVAR rMULTIPLEVAR tPTVIRGULE
+   13 $@1: %empty
 
-   15 rAFFECT: rINT tVAR tEGAL rNBR tPTVIRGULE
-   16        | tVAR tEGAL rNBR tPTVIRGULE
-   17        | rINT tVAR rMULTIPLEVAR tEGAL rNBR tPTVIRGULE
-   18        | tVAR rMULTIPLEVAR tEGAL rNBR tPTVIRGULE
+   14 rDECL: rINT tVAR $@1 tPTVIRGULE
 
-   19 rMULTIPLEVAR: tVIRGULE tVAR rMULTIPLEVAR
-   20             | %empty
+   15 $@2: %empty
 
-   21 rPRINTF: tPRINTF tPAROUVR rTEXTE tPARFERM tPTVIRGULE
+   16 rDECL: rINT tVAR $@2 rMULTIPLEVAR tPTVIRGULE
 
-   22 rNBR: tVAR
-   23     | tNBR
-   24     | rNBR rOPERATOR rNBR
-   25     | tPAROUVR rNBR tPARFERM
+   17 rAFFECT: rINT tVAR tEGAL rNBR tPTVIRGULE
+   18        | tVAR tEGAL rNBR tPTVIRGULE
+   19        | rINT tVAR rMULTIPLEVAR tEGAL rNBR tPTVIRGULE
+   20        | tVAR rMULTIPLEVAR tEGAL rNBR tPTVIRGULE
 
-   26 rOPERATOR: tPLUS
-   27          | tMOINS
-   28          | tMUL
-   29          | tDIVISER
+   21 $@3: %empty
 
-   30 rTEXTE: tVAR rTEXTE
-   31       | tVAR
+   22 rMULTIPLEVAR: tVIRGULE tVAR $@3 rMULTIPLEVAR
+   23             | %empty
+
+   24 $@4: %empty
+
+   25 $@5: %empty
+
+   26 rPRINTF: tPRINTF tPAROUVR $@4 rTEXTE $@5 tPARFERM tPTVIRGULE
+
+   27 rNBR: tVAR
+   28     | tNBR
+
+   29 $@6: %empty
+
+   30 rNBR: rNBR rOPERATOR $@6 rNBR
+
+   31 $@7: %empty
+
+   32 rNBR: tPAROUVR $@7 rNBR tPARFERM
+
+   33 rOPERATOR: tPLUS
+   34          | tMOINS
+   35          | tMUL
+   36          | tDIVISER
+
+   37 rTEXTE: tVAR rTEXTE
+   38       | tVAR
 
 
 Terminaux, suivis des règles où ils apparaissent
@@ -72,28 +94,28 @@ error (256)
 tINT (258) 1 11 12
 tMAIN (259) 4
 tCONST (260) 12
-tPARFERM (261) 4 21 25
-tPAROUVR (262) 4 21 25
+tPARFERM (261) 4 26 32
+tPAROUVR (262) 4 26 32
 tCROFERM (263)
 tCROOUVR (264)
 tACOFERM (265) 4
 tACOOUVR (266) 4
 tCHAR (267)
-tMUL (268) 28
+tMUL (268) 35
 tNEWLINE (269)
 tTAB (270)
 tBACKSPACE (271)
-tPLUS (272) 26
-tMOINS (273) 27
-tPRINTF (274) 21
-tDIVISER (275) 29
-tEGAL (276) 15 16 17 18
-tPTVIRGULE (277) 13 14 15 16 17 18 21
+tPLUS (272) 33
+tMOINS (273) 34
+tPRINTF (274) 26
+tDIVISER (275) 36
+tEGAL (276) 17 18 19 20
+tPTVIRGULE (277) 14 16 17 18 19 20 26
 tESPACE (278)
-tVIRGULE (279) 19
+tVIRGULE (279) 22
 tPOINT (280)
-tVAR (281) 13 14 15 16 17 18 19 22 30 31
-tNBR (282) 23
+tVAR (281) 14 16 17 18 19 20 22 27 37 38
+tNBR (282) 28
 
 
 Non-terminaux, suivis des règles où ils apparaissent
@@ -109,21 +131,35 @@ rBODY (31)
 rEXPR (32)
     à gauche: 7 8 9 10, à droite: 5 7 8 9
 rINT (33)
-    à gauche: 11 12, à droite: 13 14 15 17
+    à gauche: 11 12, à droite: 14 16 17 19
 rDECL (34)
-    à gauche: 13 14, à droite: 7
-rAFFECT (35)
-    à gauche: 15 16 17 18, à droite: 8
-rMULTIPLEVAR (36)
-    à gauche: 19 20, à droite: 14 17 18 19
-rPRINTF (37)
-    à gauche: 21, à droite: 9
-rNBR (38)
-    à gauche: 22 23 24 25, à droite: 15 16 17 18 24 25
-rOPERATOR (39)
-    à gauche: 26 27 28 29, à droite: 24
-rTEXTE (40)
-    à gauche: 30 31, à droite: 21 30
+    à gauche: 14 16, à droite: 7
+$@1 (35)
+    à gauche: 13, à droite: 14
+$@2 (36)
+    à gauche: 15, à droite: 16
+rAFFECT (37)
+    à gauche: 17 18 19 20, à droite: 8
+rMULTIPLEVAR (38)
+    à gauche: 22 23, à droite: 16 19 20 22
+$@3 (39)
+    à gauche: 21, à droite: 22
+rPRINTF (40)
+    à gauche: 26, à droite: 9
+$@4 (41)
+    à gauche: 24, à droite: 26
+$@5 (42)
+    à gauche: 25, à droite: 26
+rNBR (43)
+    à gauche: 27 28 30 32, à droite: 17 18 19 20 30 32
+$@6 (44)
+    à gauche: 29, à droite: 30
+$@7 (45)
+    à gauche: 31, à droite: 32
+rOPERATOR (46)
+    à gauche: 33 34 35 36, à droite: 30
+rTEXTE (47)
+    à gauche: 37 38, à droite: 26 37
 
 
 État 0
@@ -178,20 +214,20 @@ rTEXTE (40)
 
 État 4
 
-   21 rPRINTF: tPRINTF . tPAROUVR rTEXTE tPARFERM tPTVIRGULE
+   26 rPRINTF: tPRINTF . tPAROUVR $@4 rTEXTE $@5 tPARFERM tPTVIRGULE
 
     tPAROUVR  décalage et aller à l'état 17
 
 
 État 5
 
-   16 rAFFECT: tVAR . tEGAL rNBR tPTVIRGULE
-   18        | tVAR . rMULTIPLEVAR tEGAL rNBR tPTVIRGULE
+   18 rAFFECT: tVAR . tEGAL rNBR tPTVIRGULE
+   20        | tVAR . rMULTIPLEVAR tEGAL rNBR tPTVIRGULE
 
     tEGAL     décalage et aller à l'état 18
     tVIRGULE  décalage et aller à l'état 19
 
-    tEGAL  [réduction par utilisation de la règle 20 (rMULTIPLEVAR)]
+    tEGAL  [réduction par utilisation de la règle 23 (rMULTIPLEVAR)]
 
     rMULTIPLEVAR  aller à l'état 20
 
@@ -226,10 +262,10 @@ rTEXTE (40)
 
 État 10
 
-   13 rDECL: rINT . tVAR tPTVIRGULE
-   14      | rINT . tVAR rMULTIPLEVAR tPTVIRGULE
-   15 rAFFECT: rINT . tVAR tEGAL rNBR tPTVIRGULE
-   17        | rINT . tVAR rMULTIPLEVAR tEGAL rNBR tPTVIRGULE
+   14 rDECL: rINT . tVAR $@1 tPTVIRGULE
+   16      | rINT . tVAR $@2 rMULTIPLEVAR tPTVIRGULE
+   17 rAFFECT: rINT . tVAR tEGAL rNBR tPTVIRGULE
+   19        | rINT . tVAR rMULTIPLEVAR tEGAL rNBR tPTVIRGULE
 
     tVAR  décalage et aller à l'état 22
 
@@ -311,36 +347,36 @@ rTEXTE (40)
 
 État 17
 
-   21 rPRINTF: tPRINTF tPAROUVR . rTEXTE tPARFERM tPTVIRGULE
+   26 rPRINTF: tPRINTF tPAROUVR . $@4 rTEXTE $@5 tPARFERM tPTVIRGULE
 
-    tVAR  décalage et aller à l'état 28
+    $défaut  réduction par utilisation de la règle 24 ($@4)
 
-    rTEXTE  aller à l'état 29
+    $@4  aller à l'état 28
 
 
 État 18
 
-   16 rAFFECT: tVAR tEGAL . rNBR tPTVIRGULE
+   18 rAFFECT: tVAR tEGAL . rNBR tPTVIRGULE
 
-    tPAROUVR  décalage et aller à l'état 30
-    tVAR      décalage et aller à l'état 31
-    tNBR      décalage et aller à l'état 32
+    tPAROUVR  décalage et aller à l'état 29
+    tVAR      décalage et aller à l'état 30
+    tNBR      décalage et aller à l'état 31
 
-    rNBR  aller à l'état 33
+    rNBR  aller à l'état 32
 
 
 État 19
 
-   19 rMULTIPLEVAR: tVIRGULE . tVAR rMULTIPLEVAR
+   22 rMULTIPLEVAR: tVIRGULE . tVAR $@3 rMULTIPLEVAR
 
-    tVAR  décalage et aller à l'état 34
+    tVAR  décalage et aller à l'état 33
 
 
 État 20
 
-   18 rAFFECT: tVAR rMULTIPLEVAR . tEGAL rNBR tPTVIRGULE
+   20 rAFFECT: tVAR rMULTIPLEVAR . tEGAL rNBR tPTVIRGULE
 
-    tEGAL  décalage et aller à l'état 35
+    tEGAL  décalage et aller à l'état 34
 
 
 État 21
@@ -352,18 +388,22 @@ rTEXTE (40)
 
 État 22
 
-   13 rDECL: rINT tVAR . tPTVIRGULE
-   14      | rINT tVAR . rMULTIPLEVAR tPTVIRGULE
-   15 rAFFECT: rINT tVAR . tEGAL rNBR tPTVIRGULE
-   17        | rINT tVAR . rMULTIPLEVAR tEGAL rNBR tPTVIRGULE
+   14 rDECL: rINT tVAR . $@1 tPTVIRGULE
+   16      | rINT tVAR . $@2 rMULTIPLEVAR tPTVIRGULE
+   17 rAFFECT: rINT tVAR . tEGAL rNBR tPTVIRGULE
+   19        | rINT tVAR . rMULTIPLEVAR tEGAL rNBR tPTVIRGULE
 
-    tEGAL       décalage et aller à l'état 36
-    tPTVIRGULE  décalage et aller à l'état 37
-    tVIRGULE    décalage et aller à l'état 19
+    tEGAL     décalage et aller à l'état 35
+    tVIRGULE  décalage et aller à l'état 19
 
-    tEGAL       [réduction par utilisation de la règle 20 (rMULTIPLEVAR)]
-    tPTVIRGULE  [réduction par utilisation de la règle 20 (rMULTIPLEVAR)]
+    tEGAL       [réduction par utilisation de la règle 23 (rMULTIPLEVAR)]
+    tPTVIRGULE  réduction par utilisation de la règle 13 ($@1)
+    tPTVIRGULE  [réduction par utilisation de la règle 15 ($@2)]
+    tVIRGULE    [réduction par utilisation de la règle 15 ($@2)]
+    $défaut    réduction par utilisation de la règle 13 ($@1)
 
+    $@1           aller à l'état 36
+    $@2           aller à l'état 37
     rMULTIPLEVAR  aller à l'état 38
 
 
@@ -404,52 +444,40 @@ rTEXTE (40)
 
 État 28
 
-   30 rTEXTE: tVAR . rTEXTE
-   31       | tVAR .
+   26 rPRINTF: tPRINTF tPAROUVR $@4 . rTEXTE $@5 tPARFERM tPTVIRGULE
 
-    tVAR  décalage et aller à l'état 28
+    tVAR  décalage et aller à l'état 40
 
-    $défaut  réduction par utilisation de la règle 31 (rTEXTE)
-
-    rTEXTE  aller à l'état 40
+    rTEXTE  aller à l'état 41
 
 
 État 29
 
-   21 rPRINTF: tPRINTF tPAROUVR rTEXTE . tPARFERM tPTVIRGULE
+   32 rNBR: tPAROUVR . $@7 rNBR tPARFERM
 
-    tPARFERM  décalage et aller à l'état 41
+    $défaut  réduction par utilisation de la règle 31 ($@7)
+
+    $@7  aller à l'état 42
 
 
 État 30
 
-   25 rNBR: tPAROUVR . rNBR tPARFERM
+   27 rNBR: tVAR .
 
-    tPAROUVR  décalage et aller à l'état 30
-    tVAR      décalage et aller à l'état 31
-    tNBR      décalage et aller à l'état 32
-
-    rNBR  aller à l'état 42
+    $défaut  réduction par utilisation de la règle 27 (rNBR)
 
 
 État 31
 
-   22 rNBR: tVAR .
+   28 rNBR: tNBR .
 
-    $défaut  réduction par utilisation de la règle 22 (rNBR)
+    $défaut  réduction par utilisation de la règle 28 (rNBR)
 
 
 État 32
 
-   23 rNBR: tNBR .
-
-    $défaut  réduction par utilisation de la règle 23 (rNBR)
-
-
-État 33
-
-   16 rAFFECT: tVAR tEGAL rNBR . tPTVIRGULE
-   24 rNBR: rNBR . rOPERATOR rNBR
+   18 rAFFECT: tVAR tEGAL rNBR . tPTVIRGULE
+   30 rNBR: rNBR . rOPERATOR $@6 rNBR
 
     tMUL        décalage et aller à l'état 43
     tPLUS       décalage et aller à l'état 44
@@ -460,53 +488,60 @@ rTEXTE (40)
     rOPERATOR  aller à l'état 48
 
 
+État 33
+
+   22 rMULTIPLEVAR: tVIRGULE tVAR . $@3 rMULTIPLEVAR
+
+    $défaut  réduction par utilisation de la règle 21 ($@3)
+
+    $@3  aller à l'état 49
+
+
 État 34
 
-   19 rMULTIPLEVAR: tVIRGULE tVAR . rMULTIPLEVAR
+   20 rAFFECT: tVAR rMULTIPLEVAR tEGAL . rNBR tPTVIRGULE
 
-    tVIRGULE  décalage et aller à l'état 19
-
-    $défaut  réduction par utilisation de la règle 20 (rMULTIPLEVAR)
-
-    rMULTIPLEVAR  aller à l'état 49
-
-
-État 35
-
-   18 rAFFECT: tVAR rMULTIPLEVAR tEGAL . rNBR tPTVIRGULE
-
-    tPAROUVR  décalage et aller à l'état 30
-    tVAR      décalage et aller à l'état 31
-    tNBR      décalage et aller à l'état 32
+    tPAROUVR  décalage et aller à l'état 29
+    tVAR      décalage et aller à l'état 30
+    tNBR      décalage et aller à l'état 31
 
     rNBR  aller à l'état 50
 
 
-État 36
+État 35
 
-   15 rAFFECT: rINT tVAR tEGAL . rNBR tPTVIRGULE
+   17 rAFFECT: rINT tVAR tEGAL . rNBR tPTVIRGULE
 
-    tPAROUVR  décalage et aller à l'état 30
-    tVAR      décalage et aller à l'état 31
-    tNBR      décalage et aller à l'état 32
+    tPAROUVR  décalage et aller à l'état 29
+    tVAR      décalage et aller à l'état 30
+    tNBR      décalage et aller à l'état 31
 
     rNBR  aller à l'état 51
 
 
+État 36
+
+   14 rDECL: rINT tVAR $@1 . tPTVIRGULE
+
+    tPTVIRGULE  décalage et aller à l'état 52
+
+
 État 37
 
-   13 rDECL: rINT tVAR tPTVIRGULE .
+   16 rDECL: rINT tVAR $@2 . rMULTIPLEVAR tPTVIRGULE
 
-    $défaut  réduction par utilisation de la règle 13 (rDECL)
+    tVIRGULE  décalage et aller à l'état 19
+
+    $défaut  réduction par utilisation de la règle 23 (rMULTIPLEVAR)
+
+    rMULTIPLEVAR  aller à l'état 53
 
 
 État 38
 
-   14 rDECL: rINT tVAR rMULTIPLEVAR . tPTVIRGULE
-   17 rAFFECT: rINT tVAR rMULTIPLEVAR . tEGAL rNBR tPTVIRGULE
+   19 rAFFECT: rINT tVAR rMULTIPLEVAR . tEGAL rNBR tPTVIRGULE
 
-    tEGAL       décalage et aller à l'état 52
-    tPTVIRGULE  décalage et aller à l'état 53
+    tEGAL  décalage et aller à l'état 54
 
 
 État 39
@@ -522,7 +557,7 @@ rTEXTE (40)
     tACOFERM  [réduction par utilisation de la règle 10 (rEXPR)]
     $défaut  réduction par utilisation de la règle 6 (rBODY)
 
-    rBODY    aller à l'état 54
+    rBODY    aller à l'état 55
     rEXPR    aller à l'état 9
     rINT     aller à l'état 10
     rDECL    aller à l'état 11
@@ -532,189 +567,109 @@ rTEXTE (40)
 
 État 40
 
-   30 rTEXTE: tVAR rTEXTE .
+   37 rTEXTE: tVAR . rTEXTE
+   38       | tVAR .
 
-    $défaut  réduction par utilisation de la règle 30 (rTEXTE)
+    tVAR  décalage et aller à l'état 40
+
+    $défaut  réduction par utilisation de la règle 38 (rTEXTE)
+
+    rTEXTE  aller à l'état 56
 
 
 État 41
 
-   21 rPRINTF: tPRINTF tPAROUVR rTEXTE tPARFERM . tPTVIRGULE
+   26 rPRINTF: tPRINTF tPAROUVR $@4 rTEXTE . $@5 tPARFERM tPTVIRGULE
 
-    tPTVIRGULE  décalage et aller à l'état 55
+    $défaut  réduction par utilisation de la règle 25 ($@5)
+
+    $@5  aller à l'état 57
 
 
 État 42
 
-   24 rNBR: rNBR . rOPERATOR rNBR
-   25     | tPAROUVR rNBR . tPARFERM
+   32 rNBR: tPAROUVR $@7 . rNBR tPARFERM
 
-    tPARFERM  décalage et aller à l'état 56
-    tMUL      décalage et aller à l'état 43
-    tPLUS     décalage et aller à l'état 44
-    tMOINS    décalage et aller à l'état 45
-    tDIVISER  décalage et aller à l'état 46
+    tPAROUVR  décalage et aller à l'état 29
+    tVAR      décalage et aller à l'état 30
+    tNBR      décalage et aller à l'état 31
 
-    rOPERATOR  aller à l'état 48
+    rNBR  aller à l'état 58
 
 
 État 43
 
-   28 rOPERATOR: tMUL .
+   35 rOPERATOR: tMUL .
 
-    $défaut  réduction par utilisation de la règle 28 (rOPERATOR)
+    $défaut  réduction par utilisation de la règle 35 (rOPERATOR)
 
 
 État 44
 
-   26 rOPERATOR: tPLUS .
+   33 rOPERATOR: tPLUS .
 
-    $défaut  réduction par utilisation de la règle 26 (rOPERATOR)
+    $défaut  réduction par utilisation de la règle 33 (rOPERATOR)
 
 
 État 45
 
-   27 rOPERATOR: tMOINS .
+   34 rOPERATOR: tMOINS .
 
-    $défaut  réduction par utilisation de la règle 27 (rOPERATOR)
+    $défaut  réduction par utilisation de la règle 34 (rOPERATOR)
 
 
 État 46
 
-   29 rOPERATOR: tDIVISER .
+   36 rOPERATOR: tDIVISER .
 
-    $défaut  réduction par utilisation de la règle 29 (rOPERATOR)
+    $défaut  réduction par utilisation de la règle 36 (rOPERATOR)
 
 
 État 47
 
-   16 rAFFECT: tVAR tEGAL rNBR tPTVIRGULE .
+   18 rAFFECT: tVAR tEGAL rNBR tPTVIRGULE .
 
-    $défaut  réduction par utilisation de la règle 16 (rAFFECT)
+    $défaut  réduction par utilisation de la règle 18 (rAFFECT)
 
 
 État 48
 
-   24 rNBR: rNBR rOPERATOR . rNBR
+   30 rNBR: rNBR rOPERATOR . $@6 rNBR
 
-    tPAROUVR  décalage et aller à l'état 30
-    tVAR      décalage et aller à l'état 31
-    tNBR      décalage et aller à l'état 32
+    $défaut  réduction par utilisation de la règle 29 ($@6)
 
-    rNBR  aller à l'état 57
+    $@6  aller à l'état 59
 
 
 État 49
 
-   19 rMULTIPLEVAR: tVIRGULE tVAR rMULTIPLEVAR .
+   22 rMULTIPLEVAR: tVIRGULE tVAR $@3 . rMULTIPLEVAR
 
-    $défaut  réduction par utilisation de la règle 19 (rMULTIPLEVAR)
+    tVIRGULE  décalage et aller à l'état 19
+
+    $défaut  réduction par utilisation de la règle 23 (rMULTIPLEVAR)
+
+    rMULTIPLEVAR  aller à l'état 60
 
 
 État 50
 
-   18 rAFFECT: tVAR rMULTIPLEVAR tEGAL rNBR . tPTVIRGULE
-   24 rNBR: rNBR . rOPERATOR rNBR
+   20 rAFFECT: tVAR rMULTIPLEVAR tEGAL rNBR . tPTVIRGULE
+   30 rNBR: rNBR . rOPERATOR $@6 rNBR
 
     tMUL        décalage et aller à l'état 43
     tPLUS       décalage et aller à l'état 44
     tMOINS      décalage et aller à l'état 45
     tDIVISER    décalage et aller à l'état 46
-    tPTVIRGULE  décalage et aller à l'état 58
+    tPTVIRGULE  décalage et aller à l'état 61
 
     rOPERATOR  aller à l'état 48
 
 
 État 51
 
-   15 rAFFECT: rINT tVAR tEGAL rNBR . tPTVIRGULE
-   24 rNBR: rNBR . rOPERATOR rNBR
-
-    tMUL        décalage et aller à l'état 43
-    tPLUS       décalage et aller à l'état 44
-    tMOINS      décalage et aller à l'état 45
-    tDIVISER    décalage et aller à l'état 46
-    tPTVIRGULE  décalage et aller à l'état 59
-
-    rOPERATOR  aller à l'état 48
-
-
-État 52
-
-   17 rAFFECT: rINT tVAR rMULTIPLEVAR tEGAL . rNBR tPTVIRGULE
-
-    tPAROUVR  décalage et aller à l'état 30
-    tVAR      décalage et aller à l'état 31
-    tNBR      décalage et aller à l'état 32
-
-    rNBR  aller à l'état 60
-
-
-État 53
-
-   14 rDECL: rINT tVAR rMULTIPLEVAR tPTVIRGULE .
-
-    $défaut  réduction par utilisation de la règle 14 (rDECL)
-
-
-État 54
-
-    4 rMAIN: tMAIN tPAROUVR tPARFERM tACOOUVR rBODY . tACOFERM
-
-    tACOFERM  décalage et aller à l'état 61
-
-
-État 55
-
-   21 rPRINTF: tPRINTF tPAROUVR rTEXTE tPARFERM tPTVIRGULE .
-
-    $défaut  réduction par utilisation de la règle 21 (rPRINTF)
-
-
-État 56
-
-   25 rNBR: tPAROUVR rNBR tPARFERM .
-
-    $défaut  réduction par utilisation de la règle 25 (rNBR)
-
-
-État 57
-
-   24 rNBR: rNBR . rOPERATOR rNBR
-   24     | rNBR rOPERATOR rNBR .
-
-    tMUL      décalage et aller à l'état 43
-    tPLUS     décalage et aller à l'état 44
-    tMOINS    décalage et aller à l'état 45
-    tDIVISER  décalage et aller à l'état 46
-
-    tMUL      [réduction par utilisation de la règle 24 (rNBR)]
-    tPLUS     [réduction par utilisation de la règle 24 (rNBR)]
-    tMOINS    [réduction par utilisation de la règle 24 (rNBR)]
-    tDIVISER  [réduction par utilisation de la règle 24 (rNBR)]
-    $défaut  réduction par utilisation de la règle 24 (rNBR)
-
-    rOPERATOR  aller à l'état 48
-
-
-État 58
-
-   18 rAFFECT: tVAR rMULTIPLEVAR tEGAL rNBR tPTVIRGULE .
-
-    $défaut  réduction par utilisation de la règle 18 (rAFFECT)
-
-
-État 59
-
-   15 rAFFECT: rINT tVAR tEGAL rNBR tPTVIRGULE .
-
-    $défaut  réduction par utilisation de la règle 15 (rAFFECT)
-
-
-État 60
-
-   17 rAFFECT: rINT tVAR rMULTIPLEVAR tEGAL rNBR . tPTVIRGULE
-   24 rNBR: rNBR . rOPERATOR rNBR
+   17 rAFFECT: rINT tVAR tEGAL rNBR . tPTVIRGULE
+   30 rNBR: rNBR . rOPERATOR $@6 rNBR
 
     tMUL        décalage et aller à l'état 43
     tPLUS       décalage et aller à l'état 44
@@ -725,15 +680,168 @@ rTEXTE (40)
     rOPERATOR  aller à l'état 48
 
 
+État 52
+
+   14 rDECL: rINT tVAR $@1 tPTVIRGULE .
+
+    $défaut  réduction par utilisation de la règle 14 (rDECL)
+
+
+État 53
+
+   16 rDECL: rINT tVAR $@2 rMULTIPLEVAR . tPTVIRGULE
+
+    tPTVIRGULE  décalage et aller à l'état 63
+
+
+État 54
+
+   19 rAFFECT: rINT tVAR rMULTIPLEVAR tEGAL . rNBR tPTVIRGULE
+
+    tPAROUVR  décalage et aller à l'état 29
+    tVAR      décalage et aller à l'état 30
+    tNBR      décalage et aller à l'état 31
+
+    rNBR  aller à l'état 64
+
+
+État 55
+
+    4 rMAIN: tMAIN tPAROUVR tPARFERM tACOOUVR rBODY . tACOFERM
+
+    tACOFERM  décalage et aller à l'état 65
+
+
+État 56
+
+   37 rTEXTE: tVAR rTEXTE .
+
+    $défaut  réduction par utilisation de la règle 37 (rTEXTE)
+
+
+État 57
+
+   26 rPRINTF: tPRINTF tPAROUVR $@4 rTEXTE $@5 . tPARFERM tPTVIRGULE
+
+    tPARFERM  décalage et aller à l'état 66
+
+
+État 58
+
+   30 rNBR: rNBR . rOPERATOR $@6 rNBR
+   32     | tPAROUVR $@7 rNBR . tPARFERM
+
+    tPARFERM  décalage et aller à l'état 67
+    tMUL      décalage et aller à l'état 43
+    tPLUS     décalage et aller à l'état 44
+    tMOINS    décalage et aller à l'état 45
+    tDIVISER  décalage et aller à l'état 46
+
+    rOPERATOR  aller à l'état 48
+
+
+État 59
+
+   30 rNBR: rNBR rOPERATOR $@6 . rNBR
+
+    tPAROUVR  décalage et aller à l'état 29
+    tVAR      décalage et aller à l'état 30
+    tNBR      décalage et aller à l'état 31
+
+    rNBR  aller à l'état 68
+
+
+État 60
+
+   22 rMULTIPLEVAR: tVIRGULE tVAR $@3 rMULTIPLEVAR .
+
+    $défaut  réduction par utilisation de la règle 22 (rMULTIPLEVAR)
+
+
 État 61
+
+   20 rAFFECT: tVAR rMULTIPLEVAR tEGAL rNBR tPTVIRGULE .
+
+    $défaut  réduction par utilisation de la règle 20 (rAFFECT)
+
+
+État 62
+
+   17 rAFFECT: rINT tVAR tEGAL rNBR tPTVIRGULE .
+
+    $défaut  réduction par utilisation de la règle 17 (rAFFECT)
+
+
+État 63
+
+   16 rDECL: rINT tVAR $@2 rMULTIPLEVAR tPTVIRGULE .
+
+    $défaut  réduction par utilisation de la règle 16 (rDECL)
+
+
+État 64
+
+   19 rAFFECT: rINT tVAR rMULTIPLEVAR tEGAL rNBR . tPTVIRGULE
+   30 rNBR: rNBR . rOPERATOR $@6 rNBR
+
+    tMUL        décalage et aller à l'état 43
+    tPLUS       décalage et aller à l'état 44
+    tMOINS      décalage et aller à l'état 45
+    tDIVISER    décalage et aller à l'état 46
+    tPTVIRGULE  décalage et aller à l'état 69
+
+    rOPERATOR  aller à l'état 48
+
+
+État 65
 
     4 rMAIN: tMAIN tPAROUVR tPARFERM tACOOUVR rBODY tACOFERM .
 
     $défaut  réduction par utilisation de la règle 4 (rMAIN)
 
 
-État 62
+État 66
 
-   17 rAFFECT: rINT tVAR rMULTIPLEVAR tEGAL rNBR tPTVIRGULE .
+   26 rPRINTF: tPRINTF tPAROUVR $@4 rTEXTE $@5 tPARFERM . tPTVIRGULE
 
-    $défaut  réduction par utilisation de la règle 17 (rAFFECT)
+    tPTVIRGULE  décalage et aller à l'état 70
+
+
+État 67
+
+   32 rNBR: tPAROUVR $@7 rNBR tPARFERM .
+
+    $défaut  réduction par utilisation de la règle 32 (rNBR)
+
+
+État 68
+
+   30 rNBR: rNBR . rOPERATOR $@6 rNBR
+   30     | rNBR rOPERATOR $@6 rNBR .
+
+    tMUL      décalage et aller à l'état 43
+    tPLUS     décalage et aller à l'état 44
+    tMOINS    décalage et aller à l'état 45
+    tDIVISER  décalage et aller à l'état 46
+
+    tMUL      [réduction par utilisation de la règle 30 (rNBR)]
+    tPLUS     [réduction par utilisation de la règle 30 (rNBR)]
+    tMOINS    [réduction par utilisation de la règle 30 (rNBR)]
+    tDIVISER  [réduction par utilisation de la règle 30 (rNBR)]
+    $défaut  réduction par utilisation de la règle 30 (rNBR)
+
+    rOPERATOR  aller à l'état 48
+
+
+État 69
+
+   19 rAFFECT: rINT tVAR rMULTIPLEVAR tEGAL rNBR tPTVIRGULE .
+
+    $défaut  réduction par utilisation de la règle 19 (rAFFECT)
+
+
+État 70
+
+   26 rPRINTF: tPRINTF tPAROUVR $@4 rTEXTE $@5 tPARFERM tPTVIRGULE .
+
+    $défaut  réduction par utilisation de la règle 26 (rPRINTF)
