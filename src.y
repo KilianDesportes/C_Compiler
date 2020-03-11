@@ -12,15 +12,60 @@ yyerror (char const *s)
 
 %%
 
-start : tINT tMAIN tPAROUVR tPARFERM tACOOUVR tACOFERM;
-rBODY : rEXPR | ;
-rEXPR : rDECL | rOPERATION | rFONC ;
-rINT : tINT | tCONST tINT ;
-rDECL : rINT tVAR tPTVIRGULE | rINT tVAR tEGAL rNBR tPTVIRGULE;
-rNBR : tNBR | tNBR rOPERANDES rNBR;
-rOPERANDES : tPLUS | tMOINS | tDIVISER | tMUL ; 
-rOPERATION : tVAR rOPERANDES rOPERATION ;
-rFONC : tPRINTF 
+start : tINT rMAIN 
+      | rMAIN 
+      | rBODY
+      ;
+
+rMAIN : tMAIN tPAROUVR tPARFERM tACOOUVR rBODY tACOFERM 
+      ;
+
+rBODY : rEXPR 
+      | 
+      ;
+
+rEXPR : rDECL rEXPR 
+      | rAFFECT rEXPR 
+      | rPRINTF rEXPR 
+      | 
+      ;
+
+rINT : tINT 
+     | tCONST tINT 
+     ;
+
+rDECL : rINT tVAR tPTVIRGULE 
+      | rINT tVAR rMULTIPLEVAR tPTVIRGULE 
+      ;
+
+rAFFECT : rINT tVAR tEGAL rNBR tPTVIRGULE 
+        | tVAR tEGAL rNBR tPTVIRGULE 
+        | rINT tVAR rMULTIPLEVAR tEGAL rNBR tPTVIRGULE
+        | tVAR rMULTIPLEVAR tEGAL rNBR tPTVIRGULE
+        ;
+
+rMULTIPLEVAR : tVIRGULE tVAR rMULTIPLEVAR 
+             | 
+             ;
+
+rPRINTF : tPRINTF tPAROUVR rTEXTE tPARFERM tPTVIRGULE { printf("%d\n",$3); }
+        ;
+
+rNBR : tVAR 
+      | tNBR 
+      | rNBR rOPERATOR rNBR 
+      | tPAROUVR rNBR tPARFERM 
+      ;
+
+rOPERATOR : tPLUS 
+          | tMOINS 
+          | tMUL 
+          | tDIVISER 
+          ; 
+
+rTEXTE : tVAR rTEXTE 
+       | tVAR 
+       ;
 
 %% 
 
