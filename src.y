@@ -17,13 +17,14 @@ void yyerror (char const *s) {
 %token tINT tMAIN tCONST tPARFERM tPAROUVR tCROFERM tCROOUVR tACOFERM tACOOUVR tCHAR tMUL tNEWLINE tTAB tBACKSPACE;
 %token tPLUS tMOINS tPRINTF tDIVISER tEGAL tPTVIRGULE tESPACE tVIRGULE tPOINT;
 
-%union {
+%union 
+{
   int nb; 
-  var * var;
+  char * var;
 };
 
-%type <nb> tNBR;
-%type <var> tVAR;
+%token <nb> tNBR;
+%token <var> tVAR;
 
 %%
 
@@ -57,7 +58,7 @@ rINT : tINT { printf("int "); }
      ;
 
 rDECL : rINT 
-        tVAR {printf(yytext);}
+        tVAR {printf("%s\n",$2);}
         tPTVIRGULE 
       | rINT 
         tVAR { printf("%d",$2); } 
