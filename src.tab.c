@@ -86,7 +86,7 @@ void yyerror (char const *s) {
 
 
 /* Line 189 of yacc.c  */
-#line 90 "y.tab.c"
+#line 90 "src.tab.c"
 
 /* Enabling traces.  */
 #ifndef YYDEBUG
@@ -140,33 +140,6 @@ void yyerror (char const *s) {
      tVAR = 282
    };
 #endif
-/* Tokens.  */
-#define tINT 258
-#define tMAIN 259
-#define tCONST 260
-#define tPARFERM 261
-#define tPAROUVR 262
-#define tCROFERM 263
-#define tCROOUVR 264
-#define tACOFERM 265
-#define tACOOUVR 266
-#define tCHAR 267
-#define tMUL 268
-#define tNEWLINE 269
-#define tTAB 270
-#define tBACKSPACE 271
-#define tPLUS 272
-#define tMOINS 273
-#define tPRINTF 274
-#define tDIVISER 275
-#define tEGAL 276
-#define tPTVIRGULE 277
-#define tESPACE 278
-#define tVIRGULE 279
-#define tPOINT 280
-#define tNBR 281
-#define tVAR 282
-
 
 
 
@@ -183,7 +156,7 @@ typedef union YYSTYPE
 
 
 /* Line 214 of yacc.c  */
-#line 187 "y.tab.c"
+#line 160 "src.tab.c"
 } YYSTYPE;
 # define YYSTYPE_IS_TRIVIAL 1
 # define yystype YYSTYPE /* obsolescent; will be withdrawn */
@@ -195,7 +168,7 @@ typedef union YYSTYPE
 
 
 /* Line 264 of yacc.c  */
-#line 199 "y.tab.c"
+#line 172 "src.tab.c"
 
 #ifdef short
 # undef short
@@ -1465,286 +1438,286 @@ yyreduce:
 
 /* Line 1455 of yacc.c  */
 #line 31 "src.y"
-    { fprintf(yyout,"int "); }
+    { printf("int "); ;}
     break;
 
   case 6:
 
 /* Line 1455 of yacc.c  */
 #line 37 "src.y"
-    { fprintf(yyout,"main "); }
+    { printf("main "); ;}
     break;
 
   case 7:
 
 /* Line 1455 of yacc.c  */
 #line 38 "src.y"
-    { fprintf(yyout,"parouvr "); }
+    { printf("parouvr "); ;}
     break;
 
   case 8:
 
 /* Line 1455 of yacc.c  */
 #line 39 "src.y"
-    { fprintf(yyout,"parferm "); }
+    { printf("parferm "); ;}
     break;
 
   case 9:
 
 /* Line 1455 of yacc.c  */
 #line 40 "src.y"
-    { fprintf(yyout,"acoouvr "); }
+    { printf("acoouvr "); ;}
     break;
 
   case 10:
 
 /* Line 1455 of yacc.c  */
 #line 42 "src.y"
-    { fprintf(yyout,"acoferm "); }
+    { printf("acoferm "); ;}
     break;
 
   case 17:
 
 /* Line 1455 of yacc.c  */
 #line 55 "src.y"
-    { fprintf(yyout,"int "); }
+    { printf("int "); ;}
     break;
 
   case 18:
 
 /* Line 1455 of yacc.c  */
 #line 56 "src.y"
-    { fprintf(yyout,"const");}
+    {printf("const");;}
     break;
 
   case 19:
 
 /* Line 1455 of yacc.c  */
 #line 57 "src.y"
-    { fprintf(yyout,"int "); }
+    { printf("int "); ;}
     break;
 
   case 20:
 
 /* Line 1455 of yacc.c  */
 #line 61 "src.y"
-    { fprintf(yyout,"%s\n",(yyvsp[(2) - (2)].var));}
+    {printf("%s\n",(yyvsp[(2) - (2)].var));;}
     break;
 
   case 22:
 
 /* Line 1455 of yacc.c  */
 #line 64 "src.y"
-    { fprintf(yyout,"%d",(yyvsp[(2) - (2)].var)); }
+    { printf("%d",(yyvsp[(2) - (2)].var)); ;}
     break;
 
   case 23:
 
 /* Line 1455 of yacc.c  */
 #line 66 "src.y"
-    { fprintf(yyout,";\n"); }
+    { printf(";\n"); ;}
     break;
 
   case 24:
 
 /* Line 1455 of yacc.c  */
 #line 70 "src.y"
-    { fprintf(yyout,"var");}
+    {printf("var");;}
     break;
 
   case 25:
 
 /* Line 1455 of yacc.c  */
 #line 71 "src.y"
-    { fprintf(yyout,"=");}
+    {printf("=");;}
     break;
 
   case 26:
 
 /* Line 1455 of yacc.c  */
 #line 73 "src.y"
-    { fprintf(yyout,";");}
+    {printf(";");;}
     break;
 
   case 27:
 
 /* Line 1455 of yacc.c  */
 #line 74 "src.y"
-    { fprintf(yyout,"var");}
+    {printf("var");;}
     break;
 
   case 28:
 
 /* Line 1455 of yacc.c  */
 #line 75 "src.y"
-    { fprintf(yyout,"=");}
+    {printf("=");;}
     break;
 
   case 29:
 
 /* Line 1455 of yacc.c  */
 #line 77 "src.y"
-    { fprintf(yyout,";");}
+    {printf(";");;}
     break;
 
   case 30:
 
 /* Line 1455 of yacc.c  */
 #line 79 "src.y"
-    { fprintf(yyout,"var");}
+    {printf("var");;}
     break;
 
   case 31:
 
 /* Line 1455 of yacc.c  */
 #line 81 "src.y"
-    { fprintf(yyout,"=");}
+    {printf("=");;}
     break;
 
   case 32:
 
 /* Line 1455 of yacc.c  */
 #line 83 "src.y"
-    { fprintf(yyout,";\n");}
+    {printf(";");;}
     break;
 
   case 33:
 
 /* Line 1455 of yacc.c  */
 #line 84 "src.y"
-    { fprintf(yyout,"var");}
+    {printf("var");;}
     break;
 
   case 34:
 
 /* Line 1455 of yacc.c  */
 #line 86 "src.y"
-    { fprintf(yyout,"=");}
+    {printf("=");;}
     break;
 
   case 35:
 
 /* Line 1455 of yacc.c  */
 #line 88 "src.y"
-    { fprintf(yyout,";");}
+    {printf(";");;}
     break;
 
   case 36:
 
 /* Line 1455 of yacc.c  */
 #line 92 "src.y"
-    { fprintf(yyout,",%d",(yyvsp[(2) - (2)].var)); }
+    { printf(",%d",(yyvsp[(2) - (2)].var)); ;}
     break;
 
   case 39:
 
 /* Line 1455 of yacc.c  */
 #line 97 "src.y"
-    { fprintf(yyout,"printf"); }
+    { printf("printf"); ;}
     break;
 
   case 40:
 
 /* Line 1455 of yacc.c  */
 #line 98 "src.y"
-    { fprintf(yyout,"parouvr"); }
+    { printf("parouvr"); ;}
     break;
 
   case 41:
 
 /* Line 1455 of yacc.c  */
 #line 99 "src.y"
-    { fprintf(yyout,"texte"); }
+    { printf("texte"); ;}
     break;
 
   case 42:
 
 /* Line 1455 of yacc.c  */
 #line 100 "src.y"
-    { fprintf(yyout,"parferm"); }
+    { printf("parferm"); ;}
     break;
 
   case 43:
 
 /* Line 1455 of yacc.c  */
 #line 101 "src.y"
-    { fprintf(yyout,";\n"); }
+    { printf(";\n"); ;}
     break;
 
   case 44:
 
 /* Line 1455 of yacc.c  */
 #line 104 "src.y"
-    { fprintf(yyout,"var");}
+    {printf("var");;}
     break;
 
   case 45:
 
 /* Line 1455 of yacc.c  */
 #line 105 "src.y"
-    { fprintf(yyout,"nbr");}
+    {printf("nbr");;}
     break;
 
   case 47:
 
 /* Line 1455 of yacc.c  */
 #line 109 "src.y"
-    { fprintf(yyout,"parouvr"); }
+    { printf("parouvr"); ;}
     break;
 
   case 48:
 
 /* Line 1455 of yacc.c  */
 #line 111 "src.y"
-    { fprintf(yyout,"parferm"); }
+    { printf("parferm"); ;}
     break;
 
   case 49:
 
 /* Line 1455 of yacc.c  */
 #line 114 "src.y"
-    { fprintf(yyout,"+"); }
+    { printf("+"); ;}
     break;
 
   case 50:
 
 /* Line 1455 of yacc.c  */
 #line 115 "src.y"
-    { fprintf(yyout,"-"); }
+    { printf("-"); ;}
     break;
 
   case 51:
 
 /* Line 1455 of yacc.c  */
 #line 116 "src.y"
-    { fprintf(yyout,"*"); }
+    { printf("*"); ;}
     break;
 
   case 52:
 
 /* Line 1455 of yacc.c  */
 #line 117 "src.y"
-    { fprintf(yyout,"/"); }
+    { printf("/"); ;}
     break;
 
   case 53:
 
 /* Line 1455 of yacc.c  */
 #line 120 "src.y"
-    { fprintf(yyout,"var");}
+    {printf("var");;}
     break;
 
   case 55:
 
 /* Line 1455 of yacc.c  */
 #line 122 "src.y"
-    { fprintf(yyout,"var");}
+    {printf("var");;}
     break;
 
 
 
 /* Line 1455 of yacc.c  */
-#line 1748 "y.tab.c"
+#line 1721 "src.tab.c"
       default: break;
     }
   YY_SYMBOL_PRINT ("-> $$ =", yyr1[yyn], &yyval, &yyloc);

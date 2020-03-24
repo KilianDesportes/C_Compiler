@@ -748,7 +748,7 @@ case 24:
 YY_RULE_SETUP
 #line 31 "sourcev2.l"
 {
-    yylval.var = strdup(yytext);
+    yylval.var = yytext;
     return tVAR;
 };
 	YY_BREAK

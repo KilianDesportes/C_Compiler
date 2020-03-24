@@ -28,18 +28,18 @@ void yyerror (char const *s) {
 
 %%
 
-start : tINT { printf("int "); } 
+start : tINT { fprintf(yyout,"int "); } 
         rMAIN 
       | rMAIN 
       | rBODY
       ;
 
-rMAIN : tMAIN { printf("main "); } 
-        tPAROUVR { printf("parouvr "); } 
-        tPARFERM { printf("parferm "); } 
-        tACOOUVR { printf("acoouvr "); } 
+rMAIN : tMAIN { fprintf(yyout,"main "); } 
+        tPAROUVR { fprintf(yyout,"parouvr "); } 
+        tPARFERM { fprintf(yyout,"parferm "); } 
+        tACOOUVR { fprintf(yyout,"acoouvr "); } 
         rBODY 
-        tACOFERM { printf("acoferm "); } 
+        tACOFERM { fprintf(yyout,"acoferm "); } 
       ;
 
 rBODY : rEXPR 
@@ -52,74 +52,74 @@ rEXPR : rDECL rEXPR
       | 
       ;
 
-rINT : tINT { printf("int "); } 
-     | tCONST {printf("const");}
-       tINT { printf("int "); } 
+rINT : tINT { fprintf(yyout,"int "); } 
+     | tCONST { fprintf(yyout,"const");}
+       tINT { fprintf(yyout,"int "); } 
      ;
 
 rDECL : rINT 
-        tVAR {printf("%s\n",$2);}
+        tVAR { fprintf(yyout,"%s\n",$2);}
         tPTVIRGULE 
       | rINT 
-        tVAR { printf("%d",$2); } 
+        tVAR { fprintf(yyout,"%d",$2); } 
         rMULTIPLEVAR 
-        tPTVIRGULE { printf(";\n"); } 
+        tPTVIRGULE { fprintf(yyout,";\n"); } 
       ;
 
 rAFFECT : rINT 
-          tVAR {printf("var");} 
-          tEGAL {printf("=");} 
+          tVAR { fprintf(yyout,"var");} 
+          tEGAL { fprintf(yyout,"=");} 
           rNBR 
-          tPTVIRGULE {printf(";");} 
-        | tVAR {printf("var");} 
-          tEGAL {printf("=");} 
+          tPTVIRGULE { fprintf(yyout,";");} 
+        | tVAR { fprintf(yyout,"var");} 
+          tEGAL { fprintf(yyout,"=");} 
           rNBR 
-          tPTVIRGULE {printf(";");} 
+          tPTVIRGULE { fprintf(yyout,";");} 
         | rINT 
-          tVAR {printf("var");} 
+          tVAR { fprintf(yyout,"var");} 
           rMULTIPLEVAR 
-          tEGAL {printf("=");} 
+          tEGAL { fprintf(yyout,"=");} 
           rNBR 
-          tPTVIRGULE {printf(";");} 
-        | tVAR {printf("var");} 
+          tPTVIRGULE { fprintf(yyout,";\n");} 
+        | tVAR { fprintf(yyout,"var");} 
           rMULTIPLEVAR 
-          tEGAL  {printf("=");} 
+          tEGAL  { fprintf(yyout,"=");} 
           rNBR 
-          tPTVIRGULE {printf(";");} 
+          tPTVIRGULE { fprintf(yyout,";");} 
         ;
 
 rMULTIPLEVAR : tVIRGULE 
-               tVAR { printf(",%d",$2); } 
+               tVAR { fprintf(yyout,",%d",$2); } 
                rMULTIPLEVAR 
              | 
              ;
 
-rPRINTF : tPRINTF { printf("printf"); } 
-          tPAROUVR { printf("parouvr"); } 
-          rTEXTE { printf("texte"); }
-          tPARFERM { printf("parferm"); } 
-          tPTVIRGULE { printf(";\n"); } 
+rPRINTF : tPRINTF { fprintf(yyout,"printf"); } 
+          tPAROUVR { fprintf(yyout,"parouvr"); } 
+          rTEXTE { fprintf(yyout,"texte"); }
+          tPARFERM { fprintf(yyout,"parferm"); } 
+          tPTVIRGULE { fprintf(yyout,";\n"); } 
         ;
 
-rNBR : tVAR {printf("var");}
-      | tNBR {printf("nbr");}
+rNBR : tVAR { fprintf(yyout,"var");}
+      | tNBR { fprintf(yyout,"nbr");}
       | rNBR 
         rOPERATOR 
         rNBR 
-      | tPAROUVR  { printf("parouvr"); } 
+      | tPAROUVR  { fprintf(yyout,"parouvr"); } 
         rNBR 
-        tPARFERM { printf("parferm"); } 
+        tPARFERM { fprintf(yyout,"parferm"); } 
       ;
 
-rOPERATOR : tPLUS { printf("+"); } 
-          | tMOINS { printf("-"); } 
-          | tMUL { printf("*"); } 
-          | tDIVISER { printf("/"); }  
+rOPERATOR : tPLUS { fprintf(yyout,"+"); } 
+          | tMOINS { fprintf(yyout,"-"); } 
+          | tMUL { fprintf(yyout,"*"); } 
+          | tDIVISER { fprintf(yyout,"/"); }  
           ; 
 
-rTEXTE : tVAR {printf("var");}
+rTEXTE : tVAR { fprintf(yyout,"var");}
          rTEXTE 
-       | tVAR {printf("var");}
+       | tVAR { fprintf(yyout,"var");}
        ;
 
 %% 
