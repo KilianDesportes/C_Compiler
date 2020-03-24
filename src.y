@@ -1,17 +1,29 @@
 %{
+
 #include <stdio.h>
 #include <stdlib.h>
-extern FILE* yyin;
-extern FILE* yyout;
- 
-yyerror (int s)
-{
-  fprintf (stderr, "%s\n", s);
+
+extern FILE *yyin;
+extern FILE *yyout;
+
+int yylex(void);
+
+void yyerror (char const *s) {
+    fprintf (stderr, "%s\n", s);
 }
 
 %}
 
-%token tINT tMAIN tCONST tPARFERM tPAROUVR tCROFERM tCROOUVR tACOFERM tACOOUVR tCHAR tMUL tNEWLINE tTAB tBACKSPACE tPLUS tMOINS tPRINTF tDIVISER tEGAL tPTVIRGULE tESPACE tVIRGULE tPOINT tVAR tNBR
+%token tINT tMAIN tCONST tPARFERM tPAROUVR tCROFERM tCROOUVR tACOFERM tACOOUVR tCHAR tMUL tNEWLINE tTAB tBACKSPACE;
+%token tPLUS tMOINS tPRINTF tDIVISER tEGAL tPTVIRGULE tESPACE tVIRGULE tPOINT;
+
+%union {
+  int nb; 
+  var * var;
+};
+
+%type <nb> tNBR;
+%type <var> tVAR;
 
 %%
 
@@ -41,11 +53,11 @@ rEXPR : rDECL rEXPR
 
 rINT : tINT { printf("int "); } 
      | tCONST {printf("const");}
-       tINT { printf("int"); } 
+       tINT { printf("int "); } 
      ;
 
 rDECL : rINT 
-        tVAR {printf("%d",$1);}
+        tVAR {printf(yytext);}
         tPTVIRGULE 
       | rINT 
         tVAR { printf("%d",$2); } 
@@ -111,6 +123,18 @@ rTEXTE : tVAR {printf("var");}
 
 %% 
 
-int main(int argc, char* argv){
-    yyparse();
+int main(int argc, char *argv[]) {
+  if (argc == 3) {
+
+   yyout = fopen(argv[2],"w");
+   yyin = fopen(argv[1], "r");
+   yyparse();
+   fclose(yyin);
+   fclose(yyout);
+  }
+  else {
+    printf("Wrong usage !\n");
+  }
+
+  return 0;
 }
