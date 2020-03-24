@@ -3,6 +3,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+
 extern FILE *yyin;
 extern FILE *yyout;
 
@@ -34,7 +35,7 @@ start : tINT { fprintf(yyout,"int "); }
       | rBODY
       ;
 
-rMAIN : tMAIN { fprintf(yyout,"main "); } 
+rMAIN : tMAIN { fprintf(yyout,"main"); } 
         tPAROUVR { fprintf(yyout,"("); } 
         tPARFERM { fprintf(yyout,")"); } 
         tACOOUVR { fprintf(yyout,"{\n"); } 

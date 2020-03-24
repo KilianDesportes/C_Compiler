@@ -1,5 +1,6 @@
 %{
 #include "y.tab.h"
+#include <string.h>
 %}
 
 
@@ -29,7 +30,7 @@
 "," return tVIRGULE;
 "." return tPOINT;
 [a-zA-Z][a-zA-Z0-9_]* {
-    yylval.var = yytext;
+    yylval.var = strdup(yytext);
     return tVAR;
 };
 [0-9]+ { 

@@ -74,6 +74,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+
 extern FILE *yyin;
 extern FILE *yyout;
 
@@ -86,7 +87,7 @@ void yyerror (char const *s) {
 
 
 /* Line 189 of yacc.c  */
-#line 90 "y.tab.c"
+#line 91 "y.tab.c"
 
 /* Enabling traces.  */
 #ifndef YYDEBUG
@@ -175,7 +176,7 @@ typedef union YYSTYPE
 {
 
 /* Line 214 of yacc.c  */
-#line 21 "src.y"
+#line 22 "src.y"
 
   int nb; 
   char * var;
@@ -183,7 +184,7 @@ typedef union YYSTYPE
 
 
 /* Line 214 of yacc.c  */
-#line 187 "y.tab.c"
+#line 188 "y.tab.c"
 } YYSTYPE;
 # define YYSTYPE_IS_TRIVIAL 1
 # define yystype YYSTYPE /* obsolescent; will be withdrawn */
@@ -195,7 +196,7 @@ typedef union YYSTYPE
 
 
 /* Line 264 of yacc.c  */
-#line 199 "y.tab.c"
+#line 200 "y.tab.c"
 
 #ifdef short
 # undef short
@@ -498,12 +499,12 @@ static const yytype_int8 yyrhs[] =
 /* YYRLINE[YYN] -- source line where rule number YYN was defined.  */
 static const yytype_uint8 yyrline[] =
 {
-       0,    31,    31,    31,    33,    34,    37,    38,    39,    40,
-      37,    45,    46,    49,    50,    51,    52,    55,    56,    56,
-      61,    60,    64,    63,    70,    71,    69,    74,    75,    74,
-      79,    81,    78,    84,    86,    84,    92,    91,    94,    97,
-      98,   100,    97,   104,   105,   106,   109,   109,   114,   115,
-     116,   117,   120,   120,   122
+       0,    32,    32,    32,    34,    35,    38,    39,    40,    41,
+      38,    46,    47,    50,    51,    52,    53,    56,    57,    57,
+      62,    61,    65,    64,    71,    72,    70,    75,    76,    75,
+      80,    82,    79,    85,    87,    85,    93,    92,    95,    98,
+      99,   101,    98,   105,   106,   107,   110,   110,   115,   116,
+     117,   118,   121,   121,   123
 };
 #endif
 
@@ -1464,280 +1465,280 @@ yyreduce:
         case 2:
 
 /* Line 1455 of yacc.c  */
-#line 31 "src.y"
+#line 32 "src.y"
     { fprintf(yyout,"int "); }
     break;
 
   case 6:
 
 /* Line 1455 of yacc.c  */
-#line 37 "src.y"
+#line 38 "src.y"
     { fprintf(yyout,"main "); }
     break;
 
   case 7:
 
 /* Line 1455 of yacc.c  */
-#line 38 "src.y"
+#line 39 "src.y"
     { fprintf(yyout,"("); }
     break;
 
   case 8:
 
 /* Line 1455 of yacc.c  */
-#line 39 "src.y"
+#line 40 "src.y"
     { fprintf(yyout,")"); }
     break;
 
   case 9:
 
 /* Line 1455 of yacc.c  */
-#line 40 "src.y"
+#line 41 "src.y"
     { fprintf(yyout,"{\n"); }
     break;
 
   case 10:
 
 /* Line 1455 of yacc.c  */
-#line 42 "src.y"
+#line 43 "src.y"
     { fprintf(yyout,"}"); }
     break;
 
   case 17:
 
 /* Line 1455 of yacc.c  */
-#line 55 "src.y"
+#line 56 "src.y"
     { fprintf(yyout,"int "); }
     break;
 
   case 18:
 
 /* Line 1455 of yacc.c  */
-#line 56 "src.y"
+#line 57 "src.y"
     { fprintf(yyout,"const ");}
     break;
 
   case 19:
 
 /* Line 1455 of yacc.c  */
-#line 57 "src.y"
+#line 58 "src.y"
     { fprintf(yyout,"int "); }
     break;
 
   case 20:
 
 /* Line 1455 of yacc.c  */
-#line 61 "src.y"
+#line 62 "src.y"
     { fprintf(yyout,"%s\n",(yyvsp[(2) - (2)].var));}
     break;
 
   case 22:
 
 /* Line 1455 of yacc.c  */
-#line 64 "src.y"
+#line 65 "src.y"
     { fprintf(yyout,"%s",(yyvsp[(2) - (2)].var)); }
     break;
 
   case 23:
 
 /* Line 1455 of yacc.c  */
-#line 66 "src.y"
+#line 67 "src.y"
     { fprintf(yyout,";\n"); }
     break;
 
   case 24:
 
 /* Line 1455 of yacc.c  */
-#line 70 "src.y"
+#line 71 "src.y"
     { fprintf(yyout,"%s",(yyvsp[(2) - (2)].var)); }
     break;
 
   case 25:
 
 /* Line 1455 of yacc.c  */
-#line 71 "src.y"
+#line 72 "src.y"
     { fprintf(yyout,"=");}
     break;
 
   case 26:
 
 /* Line 1455 of yacc.c  */
-#line 73 "src.y"
+#line 74 "src.y"
     { fprintf(yyout,";\n"); }
     break;
 
   case 27:
 
 /* Line 1455 of yacc.c  */
-#line 74 "src.y"
+#line 75 "src.y"
     { fprintf(yyout,"%s",(yyvsp[(1) - (1)].var)); }
     break;
 
   case 28:
 
 /* Line 1455 of yacc.c  */
-#line 75 "src.y"
+#line 76 "src.y"
     { fprintf(yyout,"=");}
     break;
 
   case 29:
 
 /* Line 1455 of yacc.c  */
-#line 77 "src.y"
+#line 78 "src.y"
     { fprintf(yyout,";\n"); }
     break;
 
   case 30:
 
 /* Line 1455 of yacc.c  */
-#line 79 "src.y"
+#line 80 "src.y"
     { fprintf(yyout,"%s",(yyvsp[(2) - (2)].var)); }
     break;
 
   case 31:
 
 /* Line 1455 of yacc.c  */
-#line 81 "src.y"
+#line 82 "src.y"
     { fprintf(yyout,"=");}
     break;
 
   case 32:
 
 /* Line 1455 of yacc.c  */
-#line 83 "src.y"
+#line 84 "src.y"
     { fprintf(yyout,";\n"); }
     break;
 
   case 33:
 
 /* Line 1455 of yacc.c  */
-#line 84 "src.y"
+#line 85 "src.y"
     { fprintf(yyout,"%s",(yyvsp[(1) - (1)].var)); }
     break;
 
   case 34:
 
 /* Line 1455 of yacc.c  */
-#line 86 "src.y"
+#line 87 "src.y"
     { fprintf(yyout,"=");}
     break;
 
   case 35:
 
 /* Line 1455 of yacc.c  */
-#line 88 "src.y"
+#line 89 "src.y"
     { fprintf(yyout,";\n"); }
     break;
 
   case 36:
 
 /* Line 1455 of yacc.c  */
-#line 92 "src.y"
+#line 93 "src.y"
     { fprintf(yyout,",%s",(yyvsp[(2) - (2)].var)); }
     break;
 
   case 39:
 
 /* Line 1455 of yacc.c  */
-#line 97 "src.y"
+#line 98 "src.y"
     { fprintf(yyout,"printf"); }
     break;
 
   case 40:
 
 /* Line 1455 of yacc.c  */
-#line 98 "src.y"
+#line 99 "src.y"
     { fprintf(yyout,"("); }
     break;
 
   case 41:
 
 /* Line 1455 of yacc.c  */
-#line 100 "src.y"
+#line 101 "src.y"
     { fprintf(yyout,")"); }
     break;
 
   case 42:
 
 /* Line 1455 of yacc.c  */
-#line 101 "src.y"
+#line 102 "src.y"
     { fprintf(yyout,";\n"); }
     break;
 
   case 43:
 
 /* Line 1455 of yacc.c  */
-#line 104 "src.y"
+#line 105 "src.y"
     { fprintf(yyout,"%s",(yyvsp[(1) - (1)].var)); }
     break;
 
   case 44:
 
 /* Line 1455 of yacc.c  */
-#line 105 "src.y"
+#line 106 "src.y"
     { fprintf(yyout,"%d",(yyvsp[(1) - (1)].nb)); }
     break;
 
   case 46:
 
 /* Line 1455 of yacc.c  */
-#line 109 "src.y"
+#line 110 "src.y"
     { fprintf(yyout,"("); }
     break;
 
   case 47:
 
 /* Line 1455 of yacc.c  */
-#line 111 "src.y"
+#line 112 "src.y"
     { fprintf(yyout,")"); }
     break;
 
   case 48:
 
 /* Line 1455 of yacc.c  */
-#line 114 "src.y"
+#line 115 "src.y"
     { fprintf(yyout,"+"); }
     break;
 
   case 49:
 
 /* Line 1455 of yacc.c  */
-#line 115 "src.y"
+#line 116 "src.y"
     { fprintf(yyout,"-"); }
     break;
 
   case 50:
 
 /* Line 1455 of yacc.c  */
-#line 116 "src.y"
+#line 117 "src.y"
     { fprintf(yyout,"*"); }
     break;
 
   case 51:
 
 /* Line 1455 of yacc.c  */
-#line 117 "src.y"
+#line 118 "src.y"
     { fprintf(yyout,"/"); }
     break;
 
   case 52:
 
 /* Line 1455 of yacc.c  */
-#line 120 "src.y"
+#line 121 "src.y"
     { fprintf(yyout,"%s",(yyvsp[(1) - (1)].var)); }
     break;
 
   case 54:
 
 /* Line 1455 of yacc.c  */
-#line 122 "src.y"
+#line 123 "src.y"
     { fprintf(yyout,"%s",(yyvsp[(1) - (1)].var)); }
     break;
 
 
 
 /* Line 1455 of yacc.c  */
-#line 1741 "y.tab.c"
+#line 1742 "y.tab.c"
       default: break;
     }
   YY_SYMBOL_PRINT ("-> $$ =", yyr1[yyn], &yyval, &yyloc);
@@ -1949,7 +1950,7 @@ yyreturn:
 
 
 /* Line 1675 of yacc.c  */
-#line 125 "src.y"
+#line 126 "src.y"
  
 
 int main(int argc, char *argv[]) {

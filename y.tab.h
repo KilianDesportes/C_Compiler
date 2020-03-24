@@ -101,7 +101,7 @@ typedef union YYSTYPE
 {
 
 /* Line 1676 of yacc.c  */
-#line 21 "src.y"
+#line 22 "src.y"
 
   int nb; 
   char * var;

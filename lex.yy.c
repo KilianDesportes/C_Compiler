@@ -392,7 +392,8 @@ char *yytext;
 #define INITIAL 0
 #line 2 "sourcev2.l"
 #include "y.tab.h"
-#line 396 "lex.yy.c"
+#include <string.h>
+#line 397 "lex.yy.c"
 
 /* Macros after this point can all be overridden by user definitions in
  * section 1.
@@ -543,10 +544,10 @@ YY_DECL
 	register char *yy_cp, *yy_bp;
 	register int yy_act;
 
-#line 6 "sourcev2.l"
+#line 7 "sourcev2.l"
 
 
-#line 550 "lex.yy.c"
+#line 551 "lex.yy.c"
 
 	if ( yy_init )
 		{
@@ -631,130 +632,130 @@ do_action:	/* This label is used only to access EOF actions. */
 
 case 1:
 YY_RULE_SETUP
-#line 8 "sourcev2.l"
+#line 9 "sourcev2.l"
 return tINT;
 	YY_BREAK
 case 2:
 YY_RULE_SETUP
-#line 9 "sourcev2.l"
+#line 10 "sourcev2.l"
 return tMAIN;
 	YY_BREAK
 case 3:
 YY_RULE_SETUP
-#line 10 "sourcev2.l"
+#line 11 "sourcev2.l"
 return tCONST;
 	YY_BREAK
 case 4:
 YY_RULE_SETUP
-#line 11 "sourcev2.l"
+#line 12 "sourcev2.l"
 return tPARFERM;
 	YY_BREAK
 case 5:
 YY_RULE_SETUP
-#line 12 "sourcev2.l"
+#line 13 "sourcev2.l"
 return tPAROUVR;
 	YY_BREAK
 case 6:
 YY_RULE_SETUP
-#line 13 "sourcev2.l"
+#line 14 "sourcev2.l"
 return tCROFERM;
 	YY_BREAK
 case 7:
 YY_RULE_SETUP
-#line 14 "sourcev2.l"
+#line 15 "sourcev2.l"
 return tCROOUVR;
 	YY_BREAK
 case 8:
 YY_RULE_SETUP
-#line 15 "sourcev2.l"
+#line 16 "sourcev2.l"
 return tACOFERM;
 	YY_BREAK
 case 9:
 YY_RULE_SETUP
-#line 16 "sourcev2.l"
+#line 17 "sourcev2.l"
 return tACOOUVR;
 	YY_BREAK
 case 10:
 YY_RULE_SETUP
-#line 17 "sourcev2.l"
+#line 18 "sourcev2.l"
 return tCHAR;
 	YY_BREAK
 case 11:
 YY_RULE_SETUP
-#line 18 "sourcev2.l"
+#line 19 "sourcev2.l"
 return tMUL;
 	YY_BREAK
 case 12:
 YY_RULE_SETUP
-#line 19 "sourcev2.l"
+#line 20 "sourcev2.l"
 {}
 	YY_BREAK
 case 13:
 YY_RULE_SETUP
-#line 20 "sourcev2.l"
+#line 21 "sourcev2.l"
 {}
 	YY_BREAK
 case 14:
 YY_RULE_SETUP
-#line 21 "sourcev2.l"
+#line 22 "sourcev2.l"
 {}
 	YY_BREAK
 case 15:
 YY_RULE_SETUP
-#line 22 "sourcev2.l"
+#line 23 "sourcev2.l"
 return tPLUS;
 	YY_BREAK
 case 16:
 YY_RULE_SETUP
-#line 23 "sourcev2.l"
+#line 24 "sourcev2.l"
 return tMOINS;
 	YY_BREAK
 case 17:
 YY_RULE_SETUP
-#line 24 "sourcev2.l"
+#line 25 "sourcev2.l"
 return tPRINTF;
 	YY_BREAK
 case 18:
 YY_RULE_SETUP
-#line 25 "sourcev2.l"
+#line 26 "sourcev2.l"
 return tDIVISER;
 	YY_BREAK
 case 19:
 YY_RULE_SETUP
-#line 26 "sourcev2.l"
+#line 27 "sourcev2.l"
 return tEGAL;
 	YY_BREAK
 case 20:
 YY_RULE_SETUP
-#line 27 "sourcev2.l"
+#line 28 "sourcev2.l"
 return tPTVIRGULE;
 	YY_BREAK
 case 21:
 YY_RULE_SETUP
-#line 28 "sourcev2.l"
+#line 29 "sourcev2.l"
 {}
 	YY_BREAK
 case 22:
 YY_RULE_SETUP
-#line 29 "sourcev2.l"
+#line 30 "sourcev2.l"
 return tVIRGULE;
 	YY_BREAK
 case 23:
 YY_RULE_SETUP
-#line 30 "sourcev2.l"
+#line 31 "sourcev2.l"
 return tPOINT;
 	YY_BREAK
 case 24:
 YY_RULE_SETUP
-#line 31 "sourcev2.l"
+#line 32 "sourcev2.l"
 {
-    yylval.var = yytext;
+    yylval.var = strdup(yytext);
     return tVAR;
 };
 	YY_BREAK
 case 25:
 YY_RULE_SETUP
-#line 35 "sourcev2.l"
+#line 36 "sourcev2.l"
 { 
     yylval.nb = atoi(yytext) ; 
     return tNBR;
@@ -762,10 +763,10 @@ YY_RULE_SETUP
 	YY_BREAK
 case 26:
 YY_RULE_SETUP
-#line 40 "sourcev2.l"
+#line 41 "sourcev2.l"
 ECHO;
 	YY_BREAK
-#line 769 "lex.yy.c"
+#line 770 "lex.yy.c"
 case YY_STATE_EOF(INITIAL):
 	yyterminate();
 
@@ -1651,7 +1652,7 @@ int main()
 	return 0;
 	}
 #endif
-#line 40 "sourcev2.l"
+#line 41 "sourcev2.l"
 
 
 int yywrap(void){}
