@@ -749,7 +749,7 @@ case 24:
 YY_RULE_SETUP
 #line 32 "sourcev2.l"
 {
-    yylval.var = strdup(yytext);
+    strcpy(yylval.var,yytext);
     return tVAR;
 };
 	YY_BREAK

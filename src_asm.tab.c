@@ -87,7 +87,7 @@ void yyerror (char const *s) {
 }
 
 typedef struct{
-  char name[50];
+  char * name;
   int constant;
 }t_symbol;
 
@@ -96,19 +96,15 @@ int index_tab_symbol = 0;
 int index_tab_temp = 0;
 int tab_temp[5000];
 
-void test(char str_nom[50], int const_bool){
-
-  strcpy(tab_symbol[0].name, str_nom);
-  tab_symbol[0].constant = 44;
-
-  fprintf(yyout,"| TEST %s |",tab_symbol[0].name);
-  fprintf(yyout,"| TEST %d |",tab_symbol[0].constant);
-
+void test(int * b){
+  fprintf(yyout,"%d",*b);
 }
 
 void add_symbol(char * str_nom, int const_bool){
-  
-  strcpy(tab_symbol[index_tab_symbol].name, str_nom);
+  fprintf(yyout,"yo");
+  strcpy(tab_symbol[index_tab_symbol].name,str_nom);
+  fprintf(yyout,"yo");
+
   tab_symbol[index_tab_symbol].constant = const_bool;
   index_tab_symbol++;
 
@@ -119,7 +115,6 @@ void printTabSymbol(){
   int index = 0;
   while(index < index_tab_symbol){
     fprintf(yyout,"INDEX : %d\nNAME : %s\nCONSTANT : %d\n",index,tab_symbol[index].name,tab_symbol[index].constant);
-    index++;
   }
 
 }
@@ -128,7 +123,7 @@ void printTabSymbol(){
 
 
 /* Line 189 of yacc.c  */
-#line 132 "y.tab.c"
+#line 127 "src_asm.tab.c"
 
 /* Enabling traces.  */
 #ifndef YYDEBUG
@@ -182,33 +177,6 @@ void printTabSymbol(){
      tVAR = 282
    };
 #endif
-/* Tokens.  */
-#define tINT 258
-#define tMAIN 259
-#define tCONST 260
-#define tPARFERM 261
-#define tPAROUVR 262
-#define tCROFERM 263
-#define tCROOUVR 264
-#define tACOFERM 265
-#define tACOOUVR 266
-#define tCHAR 267
-#define tMUL 268
-#define tNEWLINE 269
-#define tTAB 270
-#define tBACKSPACE 271
-#define tPLUS 272
-#define tMOINS 273
-#define tPRINTF 274
-#define tDIVISER 275
-#define tEGAL 276
-#define tPTVIRGULE 277
-#define tESPACE 278
-#define tVIRGULE 279
-#define tPOINT 280
-#define tNBR 281
-#define tVAR 282
-
 
 
 
@@ -217,7 +185,7 @@ typedef union YYSTYPE
 {
 
 /* Line 214 of yacc.c  */
-#line 63 "src_asm.y"
+#line 58 "src_asm.y"
 
   int nb; 
   char var[50];
@@ -225,7 +193,7 @@ typedef union YYSTYPE
 
 
 /* Line 214 of yacc.c  */
-#line 229 "y.tab.c"
+#line 197 "src_asm.tab.c"
 } YYSTYPE;
 # define YYSTYPE_IS_TRIVIAL 1
 # define yystype YYSTYPE /* obsolescent; will be withdrawn */
@@ -237,7 +205,7 @@ typedef union YYSTYPE
 
 
 /* Line 264 of yacc.c  */
-#line 241 "y.tab.c"
+#line 209 "src_asm.tab.c"
 
 #ifdef short
 # undef short
@@ -535,10 +503,10 @@ static const yytype_int8 yyrhs[] =
 /* YYRLINE[YYN] -- source line where rule number YYN was defined.  */
 static const yytype_uint8 yyrline[] =
 {
-       0,    79,    79,    88,    89,    90,    91,    95,    94,   103,
-     102,   112,   111,   117,   115,   120,   123,   124,   123,   129,
-     129,   131,   134,   136,   134,   141,   142,   144,   143,   147,
-     146,   150,   149,   153,   152,   155,   155
+       0,    74,    74,    83,    84,    85,    86,    90,    89,    96,
+      95,   104,   103,   109,   107,   112,   115,   116,   115,   121,
+     121,   123,   126,   128,   126,   133,   134,   136,   135,   139,
+     138,   142,   141,   145,   144,   147,   147
 };
 #endif
 
@@ -1485,154 +1453,151 @@ yyreduce:
         case 7:
 
 /* Line 1455 of yacc.c  */
-#line 95 "src_asm.y"
+#line 90 "src_asm.y"
     { fprintf(yyout,"DECL ajout INT %s ",(yyvsp[(2) - (2)].var)); 
-          add_symbol((yyvsp[(2) - (2)].var),1);
-          printTabSymbol();
-
-        }
+          test((yyvsp[(2) - (2)].var));
+        ;}
     break;
 
   case 9:
 
 /* Line 1455 of yacc.c  */
-#line 103 "src_asm.y"
+#line 96 "src_asm.y"
     { fprintf(yyout,"DECL ajout INT %s ",(yyvsp[(3) - (3)].var)); 
-          add_symbol((yyvsp[(3) - (3)].var),0);
-          printTabSymbol();
-        }
+          test((yyvsp[(3) - (3)].var));
+        ;}
     break;
 
   case 11:
 
 /* Line 1455 of yacc.c  */
-#line 112 "src_asm.y"
-    { fprintf(yyout,"MULTIPLE ajout INT %s ",(yyvsp[(2) - (2)].var)); }
+#line 104 "src_asm.y"
+    { fprintf(yyout,"MULTIPLE ajout INT %s ",(yyvsp[(2) - (2)].var)); ;}
     break;
 
   case 13:
 
 /* Line 1455 of yacc.c  */
-#line 117 "src_asm.y"
-    { fprintf(yyout,"MULTIPLE ajout INT %s ",(yyvsp[(3) - (3)].var)); }
+#line 109 "src_asm.y"
+    { fprintf(yyout,"MULTIPLE ajout INT %s ",(yyvsp[(3) - (3)].var)); ;}
     break;
 
   case 15:
 
 /* Line 1455 of yacc.c  */
-#line 120 "src_asm.y"
-    { fprintf(yyout,"\n"); }
+#line 112 "src_asm.y"
+    { fprintf(yyout,"\n"); ;}
     break;
 
   case 16:
 
 /* Line 1455 of yacc.c  */
-#line 123 "src_asm.y"
-    { fprintf(yyout,"%s",(yyvsp[(1) - (1)].var)); }
+#line 115 "src_asm.y"
+    { fprintf(yyout,"%s",(yyvsp[(1) - (1)].var)); ;}
     break;
 
   case 17:
 
 /* Line 1455 of yacc.c  */
-#line 124 "src_asm.y"
-    { fprintf(yyout,"=");}
+#line 116 "src_asm.y"
+    { fprintf(yyout,"=");;}
     break;
 
   case 18:
 
 /* Line 1455 of yacc.c  */
-#line 126 "src_asm.y"
-    { fprintf(yyout,"\n"); }
+#line 118 "src_asm.y"
+    { fprintf(yyout,"\n"); ;}
     break;
 
   case 19:
 
 /* Line 1455 of yacc.c  */
-#line 129 "src_asm.y"
-    { fprintf(yyout,"=");}
+#line 121 "src_asm.y"
+    { fprintf(yyout,"=");;}
     break;
 
   case 22:
 
 /* Line 1455 of yacc.c  */
-#line 134 "src_asm.y"
-    { fprintf(yyout,"printf "); }
+#line 126 "src_asm.y"
+    { fprintf(yyout,"printf "); ;}
     break;
 
   case 23:
 
 /* Line 1455 of yacc.c  */
-#line 136 "src_asm.y"
-    { fprintf(yyout,"%s",(yyvsp[(4) - (4)].var)); }
+#line 128 "src_asm.y"
+    { fprintf(yyout,"%s",(yyvsp[(4) - (4)].var)); ;}
     break;
 
   case 24:
 
 /* Line 1455 of yacc.c  */
-#line 138 "src_asm.y"
-    { fprintf(yyout,"\n"); }
+#line 130 "src_asm.y"
+    { fprintf(yyout,"\n"); ;}
     break;
 
   case 25:
 
 /* Line 1455 of yacc.c  */
-#line 141 "src_asm.y"
-    { fprintf(yyout,"%s",(yyvsp[(1) - (1)].var)); }
+#line 133 "src_asm.y"
+    { fprintf(yyout,"%s",(yyvsp[(1) - (1)].var)); ;}
     break;
 
   case 26:
 
 /* Line 1455 of yacc.c  */
-#line 142 "src_asm.y"
-    { fprintf(yyout,"%d",(yyvsp[(1) - (1)].nb)); }
+#line 134 "src_asm.y"
+    { fprintf(yyout,"%d",(yyvsp[(1) - (1)].nb)); ;}
     break;
 
   case 27:
 
 /* Line 1455 of yacc.c  */
-#line 144 "src_asm.y"
-    { fprintf(yyout," + "); }
+#line 136 "src_asm.y"
+    { fprintf(yyout," + "); ;}
     break;
 
   case 29:
 
 /* Line 1455 of yacc.c  */
-#line 147 "src_asm.y"
-    { fprintf(yyout," - "); }
+#line 139 "src_asm.y"
+    { fprintf(yyout," - "); ;}
     break;
 
   case 31:
 
 /* Line 1455 of yacc.c  */
-#line 150 "src_asm.y"
-    { fprintf(yyout," * "); }
+#line 142 "src_asm.y"
+    { fprintf(yyout," * "); ;}
     break;
 
   case 33:
 
 /* Line 1455 of yacc.c  */
-#line 153 "src_asm.y"
-    { fprintf(yyout," / "); }
+#line 145 "src_asm.y"
+    { fprintf(yyout," / "); ;}
     break;
 
   case 35:
 
 /* Line 1455 of yacc.c  */
-#line 155 "src_asm.y"
-    { fprintf(yyout,"("); }
+#line 147 "src_asm.y"
+    { fprintf(yyout,"("); ;}
     break;
 
   case 36:
 
 /* Line 1455 of yacc.c  */
-#line 157 "src_asm.y"
-    { fprintf(yyout,")"); }
+#line 149 "src_asm.y"
+    { fprintf(yyout,")"); ;}
     break;
 
 
 
 /* Line 1455 of yacc.c  */
-#line 1636 "y.tab.c"
+#line 1601 "src_asm.tab.c"
       default: break;
     }
   YY_SYMBOL_PRINT ("-> $$ =", yyr1[yyn], &yyval, &yyloc);
@@ -1844,7 +1809,7 @@ yyreturn:
 
 
 /* Line 1675 of yacc.c  */
-#line 160 "src_asm.y"
+#line 152 "src_asm.y"
  
 
 int main(int argc, char *argv[]) {

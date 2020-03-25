@@ -66,33 +66,6 @@
      tVAR = 282
    };
 #endif
-/* Tokens.  */
-#define tINT 258
-#define tMAIN 259
-#define tCONST 260
-#define tPARFERM 261
-#define tPAROUVR 262
-#define tCROFERM 263
-#define tCROOUVR 264
-#define tACOFERM 265
-#define tACOOUVR 266
-#define tCHAR 267
-#define tMUL 268
-#define tNEWLINE 269
-#define tTAB 270
-#define tBACKSPACE 271
-#define tPLUS 272
-#define tMOINS 273
-#define tPRINTF 274
-#define tDIVISER 275
-#define tEGAL 276
-#define tPTVIRGULE 277
-#define tESPACE 278
-#define tVIRGULE 279
-#define tPOINT 280
-#define tNBR 281
-#define tVAR 282
-
 
 
 
@@ -101,7 +74,7 @@ typedef union YYSTYPE
 {
 
 /* Line 1676 of yacc.c  */
-#line 63 "src_asm.y"
+#line 58 "src_asm.y"
 
   int nb; 
   char var[50];
@@ -109,7 +82,7 @@ typedef union YYSTYPE
 
 
 /* Line 1676 of yacc.c  */
-#line 113 "y.tab.h"
+#line 86 "src_asm.tab.h"
 } YYSTYPE;
 # define YYSTYPE_IS_TRIVIAL 1
 # define yystype YYSTYPE /* obsolescent; will be withdrawn */

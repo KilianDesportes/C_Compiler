@@ -30,7 +30,7 @@
 "," return tVIRGULE;
 "." return tPOINT;
 [a-zA-Z][a-zA-Z0-9_]* {
-    yylval.var = strdup(yytext);
+    strcpy(yylval.var,yytext);
     return tVAR;
 };
 [0-9]+ { 

@@ -2,7 +2,7 @@
 
 #include <stdio.h>
 #include <stdlib.h>
-
+#include <string.h>
 
 extern FILE *yyin;
 extern FILE *yyout;
@@ -12,6 +12,11 @@ int yylex(void);
 void yyerror (char const *s) {
     fprintf (stderr, "%s\n", s);
 }
+
+struct symbol{
+  char * name;
+  int constant;
+};
 
 %}
 
