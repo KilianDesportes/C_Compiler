@@ -74,15 +74,15 @@ typedef union YYSTYPE
 {
 
 /* Line 1676 of yacc.c  */
-#line 21 "src.y"
+#line 63 "src_v2.y"
 
   int nb; 
-  char * var;
+  char var[50];
 
 
 
 /* Line 1676 of yacc.c  */
-#line 86 "src.tab.h"
+#line 86 "src_v2.tab.h"
 } YYSTYPE;
 # define YYSTYPE_IS_TRIVIAL 1
 # define yystype YYSTYPE /* obsolescent; will be withdrawn */
