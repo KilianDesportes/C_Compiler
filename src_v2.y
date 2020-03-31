@@ -18,120 +18,65 @@ void yyerror (char const *s) {
 typedef struct{
   char name[50];
   int constant;
-  int initialized;
 }t_symbol;
 
-// DEBUT DU TABLEAU : -> nom de la variable / constante ou non
-// FIN DU TABLEAU (temporaire) : -> index du début du tableau / valeur
+// NOTE : faire un tableau de char* pour retourner les instructions, pas faire de fprintf a chaque fois
 
-#define size 256
-
-t_symbol tab_symbol[size];
+t_symbol tab_symbol[256];
 int index_tab_symbol = 0;
 
-void add_temp(int index_val, int val){
+char last_variable[50];
 
-  int index_tab_temp = size - 1 - index_val;
+void push(char * str_variable_name, int bool_is_constant){
 
-  int bool_const = tab_symbol[index_val].constant;
+  int bool_symbol_exist = find_symbol(str_variable_name);
+  int bool_is_temp = (strcmp(str_variable_name,"$")==0);
 
-  if(tab_symbol[index_val].initialized == 0 || bool_const != 0){
-
-    itoa(index_val,tab_symbol[index_tab_temp].name,50);
-    tab_symbol[index_tab_temp].constant = val;
-    tab_symbol[index_val].initialized = 1;
-
-  }else if(bool_const==0){
-
-      yyerror("Compilation error - Modified CONST INT\n");
-
-  }
-
-  char name[50];
-  strcpy(name,tab_symbol[index_val].name);
- 
-  fprintf(yyout,"Ajout var temporaire %s d'index %d avec la valeur %d\n",name,index_val,val);
-
-}
-
-int get_value_temp(int index_val){
-
-
-  int index_temp = size - 1  - index_val;
-  int value = tab_symbol[index_temp].constant;
-  char name[50];
-  strcpy(name,tab_symbol[index_val].name);
-  fprintf(yyout,"Index pour la variable : %s d'index %d , temporaire : %d - valeur %d\n",name,index_val,index_temp,value);
-
-  return value;
-
-}
-
-
-int get_adr(char * str_nom){
-
-    int adr=-1;
-    int index_tmp = 0;
-
-    int bool_trouve = 0;
-
-    while(index_tmp < index_tab_symbol && !bool_trouve){
-
-      if(strcmp(tab_symbol[index_tmp].name,str_nom)==0){
-
-        adr = index_tmp;
-
-        bool_trouve = 1;
-
-      } else {
-      
-        index_tmp++;
-
-      }
-
-    }
-
-    return adr;
-}
-
-
-void add_symbol(char * str_nom, int const_bool){
-
-  int index_tmp = 0;
-  int bool_already_in = 0;
-  while((index_tmp < index_tab_symbol) && !bool_already_in){
-    if(strcmp(tab_symbol[index_tmp].name,str_nom)==0){
-      bool_already_in = 1;
-    }
-    index_tmp++;
-  }
-  if(bool_already_in == 0){
-    strcpy(tab_symbol[index_tab_symbol].name, str_nom);
-    tab_symbol[index_tab_symbol].constant = const_bool;
+  if(bool_symbol_exist == -1 || bool_is_temp){
+    strcpy(tab_symbol[index_tab_symbol].name, str_variable_name);
+    tab_symbol[index_tab_symbol].constant = bool_is_constant;
     index_tab_symbol++;
   }
 
 }
 
-void printTabSymbol(){
+int find_symbol(char * str_nom){
+
+    int index_counter = 0;
+    int bool_trouve = 0;
+
+    while(index_counter < index_tab_symbol && !bool_trouve){
+      if(strcmp(tab_symbol[index_counter].name,str_nom)==0){
+        bool_trouve = 1;
+      } else {
+        index_counter++;
+      }
+    }
+
+    if(bool_trouve==0){
+      index_counter = -1;
+    }
+
+    return index_counter;
+}
+
+void pop(){
+  index_tab_symbol--;
+}
+
+
+int get_last_symbol(){
+  return index_tab_symbol-1;
+}
+
+void printTab(){
+
+  fprintf(yyout,"Size is : %d\n",index_tab_symbol-1);
 
   int index = 0;
   while(index < index_tab_symbol){
     fprintf(yyout,"SymbolTab : INDEX : %d - NAME : %s - CONSTANT : %d\n",index,tab_symbol[index].name,tab_symbol[index].constant);
     index++;
-  }
-
-}
-
-void printTabTemp(){
-
-  int index_tab_temp = 255 - index_tab_symbol;
-
-
-  int index = 255;
-  while(index > index_tab_temp){
-    fprintf(yyout,"TempTab : INDEX : %d - NAME : %s - CONSTANT : %d\n",index,tab_symbol[index].name,tab_symbol[index].constant);
-    index--;
   }
 
 }
@@ -180,46 +125,33 @@ rBODY : rDECL rBODY
 
 rDECL : tINT 
         tVAR { 
-          add_symbol($2,1);
-          int adr = get_adr($2);
-          fprintf(yyout,"DECL ajout INT %s à l'index %d\n",$2,adr); 
+          push($2,0);
+          strcpy(last_variable,$2);
         }
         rAFFECT_DECL
-        {
-          int adr = get_adr($2);
-            if(adr == -1){
-              yyerror("Compilation error - Unknow variable\n");
-            }else{
-              add_temp(adr,$4);
-            }
-        }
         rMULTIPLEVAR
       | tCONST tINT 
         tVAR { 
-          add_symbol($3,0);
-          int adr = get_adr($3);
-          fprintf(yyout,"DECL ajout INT %s à l'index %d\n",$3,adr); 
-
+          push($3,1);
+          strcpy(last_variable,$3);
         }
         rAFFECT_DECL
-        {
-          int adr = get_adr($3);
-            if(adr == -1){
-              yyerror("Compilation error - Unknow variable\n");
-            }else{
-              add_temp(adr,$5);
-            }
-        }
         rMULTIPLEVAR
       ;
 
 rMULTIPLEVAR :  tVIRGULE 
-                tVAR { fprintf(yyout,"MULTIPLE ajout INT %s \n",$2); } 
+                tVAR { 
+                  push($2,0);
+                  strcpy(last_variable,$2);
+                }
                 rAFFECT_DECL
                 rMULTIPLEVAR 
               | tCONST
                 tVIRGULE 
-                tVAR { fprintf(yyout,"MULTIPLE ajout INT %s \n",$3); } 
+                tVAR { 
+                  push($3,1);
+                  strcpy(last_variable,$3);
+                }
                 rAFFECT_DECL
                 rMULTIPLEVAR 
               | tPTVIRGULE { fprintf(yyout,"\n"); } 
@@ -227,19 +159,24 @@ rMULTIPLEVAR :  tVIRGULE
 
 rAFFECT : tVAR  
           tEGAL 
-          rNBR { 
-            int adr = get_adr($1);
-            if(adr == -1){
-              yyerror("Compilation error - Unknow variable\n");
-            }else{
-              add_temp(adr,$3);
-            }
-          } 
+          rNBR         
+          {
+          int adr_var = find_symbol($1);
+          int adr_expr = get_last_symbol();
+          fprintf(yyout,"COP %d %d\n",adr_var,adr_expr);
+          pop();
+          }
           tPTVIRGULE { fprintf(yyout,"\n"); } 
         ;
 
 rAFFECT_DECL : tEGAL
-          rNBR { $$ = $2; }
+          rNBR
+          {
+            int adr_var = find_symbol(last_variable);
+            int adr_expr = get_last_symbol();
+            fprintf(yyout,"COP %d %d\n",adr_var,adr_expr);
+            pop();
+          }
           |
           ;
 
@@ -251,28 +188,32 @@ rPRINTF : tPRINTF { fprintf(yyout,"printf "); }
         ;
 
 rNBR : tVAR { 
-    
-        int adr = get_adr($1);
-          if(adr == -1){
-            yyerror("Compilation error - Unknow variable\n");
-          }else{
-            $$ = get_value_temp(adr);
-          }
-
+          push("$",1); 
+          int adr_var = find_symbol($1);
+          int adr_expr = get_last_symbol();
+          fprintf(yyout,"COP %d %d\n",adr_expr,adr_var);
         } 
-      | tNBR { $$=$1; } 
+      | tNBR { 
+          push("$",1);   
+          printTab();
+          int adr_expr = get_last_symbol();
+          fprintf(yyout,"AFC %d %d\n",adr_expr,$1);
+        }
       | rNBR 
         tPLUS 
-        rNBR  { $$=$1+$3; } 
+        rNBR { int first_operand = get_last_symbol()-1;
+        int second_operand = get_last_symbol();
+        fprintf(yyout,"ADD %d %d %d\n",first_operand,first_operand,second_operand);
+        pop(); }
       | rNBR 
         tMOINS 
-        rNBR  { $$=$1-$3; } 
+        rNBR  
       | rNBR  
         tMUL
-        rNBR  { $$=$1*$3; } 
+        rNBR 
       | rNBR  
         tDIVISER
-        rNBR  { $$=$1/$3; } 
+        rNBR
       | tPAROUVR  { fprintf(yyout,"("); } 
         rNBR 
         tPARFERM { fprintf(yyout,")"); } 

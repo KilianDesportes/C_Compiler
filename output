@@ -1,20 +1,37 @@
-DECL ajout INT i à l'index 0
-Ajout var temporaire i d'index 0 avec la valeur 0
 
-DECL ajout INT j à l'index 1
-Ajout var temporaire j d'index 1 avec la valeur 10
+Size is : 4
+SymbolTab : INDEX : 0 - NAME : i - CONSTANT : 0
+SymbolTab : INDEX : 1 - NAME : j - CONSTANT : 0
+SymbolTab : INDEX : 2 - NAME : k - CONSTANT : 0
+SymbolTab : INDEX : 3 - NAME : r - CONSTANT : 0
+SymbolTab : INDEX : 4 - NAME : $ - CONSTANT : 1
+AFC 4 3
+COP 0 4
 
-Ajout var temporaire i d'index 0 avec la valeur 13
+Size is : 4
+SymbolTab : INDEX : 0 - NAME : i - CONSTANT : 0
+SymbolTab : INDEX : 1 - NAME : j - CONSTANT : 0
+SymbolTab : INDEX : 2 - NAME : k - CONSTANT : 0
+SymbolTab : INDEX : 3 - NAME : r - CONSTANT : 0
+SymbolTab : INDEX : 4 - NAME : $ - CONSTANT : 1
+AFC 4 5
+COP 1 4
 
-DECL ajout INT k à l'index 2
-Ajout var temporaire k d'index 2 avec la valeur 18
+Size is : 4
+SymbolTab : INDEX : 0 - NAME : i - CONSTANT : 0
+SymbolTab : INDEX : 1 - NAME : j - CONSTANT : 0
+SymbolTab : INDEX : 2 - NAME : k - CONSTANT : 0
+SymbolTab : INDEX : 3 - NAME : r - CONSTANT : 0
+SymbolTab : INDEX : 4 - NAME : $ - CONSTANT : 1
+AFC 4 8
+COP 2 4
 
-Const modifined ERROR
-Ajout var temporaire k d'index 2 avec la valeur 88
-
-Index pour la variable : j d'index 1 , temporaire : 254 - valeur 10
-Index pour la variable : k d'index 2 , temporaire : 253 - valeur 18
-Ajout var temporaire i d'index 0 avec la valeur 28
-
-Ajout var temporaire i d'index 0 avec la valeur 12
+(COP 4 0
+COP 5 1
+ADD 4 4 5
+)(COP 5 0
+COP 6 2
+COP 7 1
+ADD 6 6 7
+)COP 3 6
 
