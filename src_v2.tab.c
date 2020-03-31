@@ -508,10 +508,10 @@ static const yytype_int8 yyrhs[] =
 /* YYRLINE[YYN] -- source line where rule number YYN was defined.  */
 static const yytype_uint8 yyrline[] =
 {
-       0,    79,    79,    88,    89,    90,    91,    95,    94,   103,
-     102,   112,   111,   117,   115,   120,   123,   124,   123,   129,
-     129,   131,   134,   136,   134,   141,   142,   144,   143,   147,
-     146,   150,   149,   153,   152,   155,   155
+       0,    79,    79,    88,    89,    90,    91,    95,    94,   104,
+     103,   113,   112,   118,   116,   121,   124,   125,   124,   130,
+     130,   132,   135,   137,   135,   142,   143,   145,   144,   148,
+     147,   151,   150,   154,   153,   156,   156
 };
 #endif
 
@@ -1461,6 +1461,7 @@ yyreduce:
 #line 95 "src_v2.y"
     { fprintf(yyout,"DECL ajout INT %s ",(yyvsp[(2) - (2)].var)); 
           add_symbol((yyvsp[(2) - (2)].var),1);
+          add_symbol((yyvsp[(2) - (2)].var),10);
           printTabSymbol();
 
         ;}
@@ -1469,7 +1470,7 @@ yyreduce:
   case 9:
 
 /* Line 1455 of yacc.c  */
-#line 103 "src_v2.y"
+#line 104 "src_v2.y"
     { fprintf(yyout,"DECL ajout INT %s ",(yyvsp[(3) - (3)].var)); 
           add_symbol((yyvsp[(3) - (3)].var),0);
           printTabSymbol();
@@ -1479,133 +1480,133 @@ yyreduce:
   case 11:
 
 /* Line 1455 of yacc.c  */
-#line 112 "src_v2.y"
+#line 113 "src_v2.y"
     { fprintf(yyout,"MULTIPLE ajout INT %s ",(yyvsp[(2) - (2)].var)); ;}
     break;
 
   case 13:
 
 /* Line 1455 of yacc.c  */
-#line 117 "src_v2.y"
+#line 118 "src_v2.y"
     { fprintf(yyout,"MULTIPLE ajout INT %s ",(yyvsp[(3) - (3)].var)); ;}
     break;
 
   case 15:
 
 /* Line 1455 of yacc.c  */
-#line 120 "src_v2.y"
+#line 121 "src_v2.y"
     { fprintf(yyout,"\n"); ;}
     break;
 
   case 16:
 
 /* Line 1455 of yacc.c  */
-#line 123 "src_v2.y"
+#line 124 "src_v2.y"
     { fprintf(yyout,"%s",(yyvsp[(1) - (1)].var)); ;}
     break;
 
   case 17:
 
 /* Line 1455 of yacc.c  */
-#line 124 "src_v2.y"
+#line 125 "src_v2.y"
     { fprintf(yyout,"=");;}
     break;
 
   case 18:
 
 /* Line 1455 of yacc.c  */
-#line 126 "src_v2.y"
+#line 127 "src_v2.y"
     { fprintf(yyout,"\n"); ;}
     break;
 
   case 19:
 
 /* Line 1455 of yacc.c  */
-#line 129 "src_v2.y"
+#line 130 "src_v2.y"
     { fprintf(yyout,"=");;}
     break;
 
   case 22:
 
 /* Line 1455 of yacc.c  */
-#line 134 "src_v2.y"
+#line 135 "src_v2.y"
     { fprintf(yyout,"printf "); ;}
     break;
 
   case 23:
 
 /* Line 1455 of yacc.c  */
-#line 136 "src_v2.y"
+#line 137 "src_v2.y"
     { fprintf(yyout,"%s",(yyvsp[(4) - (4)].var)); ;}
     break;
 
   case 24:
 
 /* Line 1455 of yacc.c  */
-#line 138 "src_v2.y"
+#line 139 "src_v2.y"
     { fprintf(yyout,"\n"); ;}
     break;
 
   case 25:
 
 /* Line 1455 of yacc.c  */
-#line 141 "src_v2.y"
+#line 142 "src_v2.y"
     { fprintf(yyout,"%s",(yyvsp[(1) - (1)].var)); ;}
     break;
 
   case 26:
 
 /* Line 1455 of yacc.c  */
-#line 142 "src_v2.y"
+#line 143 "src_v2.y"
     { fprintf(yyout,"%d",(yyvsp[(1) - (1)].nb)); ;}
     break;
 
   case 27:
 
 /* Line 1455 of yacc.c  */
-#line 144 "src_v2.y"
+#line 145 "src_v2.y"
     { fprintf(yyout," + "); ;}
     break;
 
   case 29:
 
 /* Line 1455 of yacc.c  */
-#line 147 "src_v2.y"
+#line 148 "src_v2.y"
     { fprintf(yyout," - "); ;}
     break;
 
   case 31:
 
 /* Line 1455 of yacc.c  */
-#line 150 "src_v2.y"
+#line 151 "src_v2.y"
     { fprintf(yyout," * "); ;}
     break;
 
   case 33:
 
 /* Line 1455 of yacc.c  */
-#line 153 "src_v2.y"
+#line 154 "src_v2.y"
     { fprintf(yyout," / "); ;}
     break;
 
   case 35:
 
 /* Line 1455 of yacc.c  */
-#line 155 "src_v2.y"
+#line 156 "src_v2.y"
     { fprintf(yyout,"("); ;}
     break;
 
   case 36:
 
 /* Line 1455 of yacc.c  */
-#line 157 "src_v2.y"
+#line 158 "src_v2.y"
     { fprintf(yyout,")"); ;}
     break;
 
 
 
 /* Line 1455 of yacc.c  */
-#line 1609 "src_v2.tab.c"
+#line 1610 "src_v2.tab.c"
       default: break;
     }
   YY_SYMBOL_PRINT ("-> $$ =", yyr1[yyn], &yyval, &yyloc);
@@ -1817,7 +1818,7 @@ yyreturn:
 
 
 /* Line 1675 of yacc.c  */
-#line 160 "src_v2.y"
+#line 161 "src_v2.y"
  
 
 int main(int argc, char *argv[]) {

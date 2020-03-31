@@ -1,3 +1,20 @@
-DECL ajout INT i INDEX : 0
-NAME : i
-CONSTANT : 1
+DECL ajout INT i à l'index 0
+Ajout var temporaire i d'index 0 avec la valeur 0
+
+DECL ajout INT j à l'index 1
+Ajout var temporaire j d'index 1 avec la valeur 10
+
+Ajout var temporaire i d'index 0 avec la valeur 13
+
+DECL ajout INT k à l'index 2
+Ajout var temporaire k d'index 2 avec la valeur 18
+
+Const modifined ERROR
+Ajout var temporaire k d'index 2 avec la valeur 88
+
+Index pour la variable : j d'index 1 , temporaire : 254 - valeur 10
+Index pour la variable : k d'index 2 , temporaire : 253 - valeur 18
+Ajout var temporaire i d'index 0 avec la valeur 28
+
+Ajout var temporaire i d'index 0 avec la valeur 12
+

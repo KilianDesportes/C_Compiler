@@ -1,0 +1,119 @@
+Générer du code assembleur pour calcul arithmétique
+
+Contexte:
+- Nous avons mis en place la table des symboles pour pouvoir connaitre l'adresse à utiliser pour un tID précis.
+
+Prérequis:
+- Connaissance de base sur la langage assembleur.
+
+Objectif:
+- Générer le code assembleur pour calcul arithmétique.
+
+Explications:
+
+1. Langage assembleur utilisé dans cette partie du projet (orienté mémoire).
+
+Vous pouvez retrouver la liste des instructions dans le sujet page 6.
+Les valeurs en majuscules sont les noms d'instructions (souvent appelée "opcode"). Les variables précédées de "@" sont des adresses (vous pouvez très bien imaginer que l'adresse débute à 4000), les restes sont des valeurs immédiates (constants).
+Pour l'instant vous pouvez ignorer le "code opération", il est utilisé pour aider au processeur de retrouver l'instruction utilisée. Pour un usage dans le processeur, il faut aussi que les adresses et les variables soient représentées en hexadécimale (base 16).
+
+ADD @résultat @opérande1 @opérande2
+MUL @résultat @opérande1 @opérande2
+SOU @résultat @opérande1 @opérande2
+DIV @résultat @opérande1 @opérande2
+COP @résultat @opérande
+AFC @résultat val_const
+JMP num_inst
+JMF @cond     num_inst
+INF @résultat @opérande1 @opérande2
+SUP @résultat @opérand1 @opérand2
+EQU @résultat @opérand1 @opérand2
+PRI @résultat
+
+2. Exemple affectation d'une variable simple.
+
+Imaginons le code C suivant:
+
+```
+int a;
+a = 10;
+```
+
+Qu'est-ce qu'il faut faire dans cette situation?
+
+"int a;" est une ligne de définition de variable a.
+A l'aide de la table de symboles que nous avons créée, nous pouvons le placer dans la table et lui attribuer une adresse. Par exemple, il a adresse @4 (qu'il y a 3 variables déjà définies avant).
+
+"a=4;" est une ligne d'affectation de variable a.
+A l'aide de la table de symboles, on vérifie que "a" existe, et on retrouve son adresse @4.
+On aimerait donc donner la valeur immédiate (constant) 10 à la l'adresse @4.
+En nous basant sur la liste des instructions, nous remarquons qu'il y a seulement instruction "AFC" permet de manipuler les constant. "AFC" permet de donner une constante à une adresse, c'est ce que l'on cherche.
+Ainsi, le code assembleur généré est: "AFC 4 10".
+
+Pour le moment nous nous contentons des printf sur le terminal, pour la suite (assembleur pours if-else-while) ça serait mieux de le mettre dans un structure et print dans un fichier à la fin de l'exécution de Yacc.
+
+3. Exemple calcul avec des constants. Introduction à variable temporaire.
+
+Imaginons le cas "a=10+20;", avec a à @4.
+
+Il nous faut toujours utiliser "AFC" pour mettre une constante à une adresse, mais nous ne pouvons pas le mettre directement dans @4 (imaginons "a=10+a;", il faut que la variable a ne change sa valeur qu'à la fin de calcul). Même si nous pouvons y mettre 10, il faut trouver une place pour 20.
+
+Ainsi nous introduisons la notion "variable temporaire", utilisée dans les calculs pour stocker temporellement des valeurs et des résultats intermédiaires (c'est un peu comme "Expr" dans Yacc). C'est aussi ce mécanisme qui nous permet de généraliser nos calculs.
+
+Il faut considérer ce cas dans la table de symboles : c'est à dire permet d'ajout et supprimer des variables temporaires (où, on ne vérifie pas s'il y a une double définition, parce que le nom de variable est choisi arbitrairement).
+Pour retrouver l'adresse d'une variable temporaire, il y a 2 façons de faire:
+- Soit associer son adresse à token "Expr", renvoyer avec $$ et utiliser avec $1 etc.
+- Soit pour un calcul, prendre toujours les 1 (dans le cas d'un calcul avec un seul opérande) ou 2 dernières variables temporaires dans la table.  (pour ceux qui se demandent, oui c'est en fait push / pop d'une pile.)
+Personnellement je préfère la deuxième, la suite de l'explication est basé sur la deuxième.
+
+Il y a deux manières de gérer la position des variables temporaires dans le mémoire :
+- Mettre directement après le dernier variable déclaré.
+- Avoir un tableau/zone presque à part qui sert uniquement pour les variables temporaires. (méthode proposée dans le sujet)
+Dans la suite, j'utilise la deuxième méthode pour faciliter la séparation entre variable temporaire et déclarée.
+
+Donc maintenant dans la table des symboles, nous avons: "a @4", "temp @100", "temp @101".
+Avec "AFC" nous attribuons 10 et 20 dans les variables temporaires : "AFC 100 10", "AFC 101 20".
+Puis il faut que nous additionnions ces valeurs, et affecter à la variable a: "ADD 4 100 101". (En fait, c'est un raccourci de "ADD 100 100 101" et on garde toujours une variable temporaire qui contient le résultat. Puis affecter à la variable a avec "COP 4 100".)
+
+Plus précisément dans le yacc, nous avons utilisé les lignes suivantes, en voici quelques indications:
+
+```
+Affectation:
+    tID tEQ Expr
+        { // @tID = @Expr.
+        }
+    ;
+
+Expr:
+    tNB
+        { // @temp = tNB.
+        }
+    | Expr tADD Expr
+        { // @Expr = @temp2 + @temp1. (avec Expr lui aussi une variable temporaire)
+        }
+    ;
+```
+
+N'oubliez pas de supprimer les variables temporaires quand il ne nous sert plus (quand la valeur a été utilisée).
+
+Ainsi, le code assembleur généré est:
+
+```
+AFC 100 10
+AFC 101 20
+ADD 100 100 101
+COP 4 100
+```
+
+4. Exemple calcul avec une variable.
+
+Imaginons le cas "a = b + a;".
+
+Nous savons déjà comment faire addition, et affectation. Nous avons besoin de récupérer la variable b dans une variable temporaire, puis a.
+
+Il faut que l'on retrouve l'adresse de b avec la table des symboles. Disons qu'il se situe à l'adresse @3.
+Il faut que l'on crée une variable temporaire pour mettre la valeur de b (nous n’avons absolument pas envie d'écraser la valeur de b ou a pendant le calcul). Disons qu'il se situe à l'adresse @100.
+En nous basant sur la liste des instructions, nous avons trouvé "COP" qui permet de copier d'une adresse à une autre.
+Ce qu'il faut faire c'est "COP 100 3".
+
+A vous de voir à quel moment dans Yacc il faut générer tout ça.

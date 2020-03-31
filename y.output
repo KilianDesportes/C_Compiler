@@ -1,0 +1,793 @@
+Terminals unused in grammar
+
+   tCROFERM
+   tCROOUVR
+   tCHAR
+   tNEWLINE
+   tTAB
+   tBACKSPACE
+   tESPACE
+   tPOINT
+
+
+Grammaire
+
+    0 $accept: start $end
+
+    1 start: tINT tMAIN tPAROUVR tPARFERM tACOOUVR rBODY tACOFERM
+
+    2 rBODY: rDECL rBODY
+    3      | rAFFECT rBODY
+    4      | rPRINTF rBODY
+    5      | /* vide */
+
+    6 $@1: /* vide */
+
+    7 $@2: /* vide */
+
+    8 rDECL: tINT tVAR $@1 rAFFECT_DECL $@2 rMULTIPLEVAR
+
+    9 $@3: /* vide */
+
+   10 $@4: /* vide */
+
+   11 rDECL: tCONST tINT tVAR $@3 rAFFECT_DECL $@4 rMULTIPLEVAR
+
+   12 $@5: /* vide */
+
+   13 rMULTIPLEVAR: tVIRGULE tVAR $@5 rAFFECT_DECL rMULTIPLEVAR
+
+   14 $@6: /* vide */
+
+   15 rMULTIPLEVAR: tCONST tVIRGULE tVAR $@6 rAFFECT_DECL rMULTIPLEVAR
+   16             | tPTVIRGULE
+
+   17 $@7: /* vide */
+
+   18 rAFFECT: tVAR tEGAL rNBR $@7 tPTVIRGULE
+
+   19 rAFFECT_DECL: tEGAL rNBR
+   20             | /* vide */
+
+   21 $@8: /* vide */
+
+   22 $@9: /* vide */
+
+   23 rPRINTF: tPRINTF $@8 tPAROUVR tVAR $@9 tPARFERM tPTVIRGULE
+
+   24 rNBR: tVAR
+   25     | tNBR
+   26     | rNBR tPLUS rNBR
+   27     | rNBR tMOINS rNBR
+   28     | rNBR tMUL rNBR
+   29     | rNBR tDIVISER rNBR
+
+   30 $@10: /* vide */
+
+   31 rNBR: tPAROUVR $@10 rNBR tPARFERM
+
+
+Terminaux, suivis des règles où ils apparaissent
+
+$end (0) 0
+error (256)
+tINT (258) 1 8 11
+tMAIN (259) 1
+tCONST (260) 11 15
+tPARFERM (261) 1 23 31
+tPAROUVR (262) 1 23 31
+tCROFERM (263)
+tCROOUVR (264)
+tACOFERM (265) 1
+tACOOUVR (266) 1
+tCHAR (267)
+tMUL (268) 28
+tNEWLINE (269)
+tTAB (270)
+tBACKSPACE (271)
+tPLUS (272) 26
+tMOINS (273) 27
+tPRINTF (274) 23
+tDIVISER (275) 29
+tEGAL (276) 18 19
+tPTVIRGULE (277) 16 18 23
+tESPACE (278)
+tVIRGULE (279) 13 15
+tPOINT (280)
+tNBR (281) 25
+tVAR (282) 8 11 13 15 18 23 24
+
+
+Non-terminaux, suivis des règles où ils apparaissent
+
+$accept (28)
+    à gauche: 0
+start (29)
+    à gauche: 1, à droite: 0
+rBODY (30)
+    à gauche: 2 3 4 5, à droite: 1 2 3 4
+rDECL (31)
+    à gauche: 8 11, à droite: 2
+$@1 (32)
+    à gauche: 6, à droite: 8
+$@2 (33)
+    à gauche: 7, à droite: 8
+$@3 (34)
+    à gauche: 9, à droite: 11
+$@4 (35)
+    à gauche: 10, à droite: 11
+rMULTIPLEVAR (36)
+    à gauche: 13 15 16, à droite: 8 11 13 15
+$@5 (37)
+    à gauche: 12, à droite: 13
+$@6 (38)
+    à gauche: 14, à droite: 15
+rAFFECT (39)
+    à gauche: 18, à droite: 3
+$@7 (40)
+    à gauche: 17, à droite: 18
+rAFFECT_DECL (41)
+    à gauche: 19 20, à droite: 8 11 13 15
+rPRINTF (42)
+    à gauche: 23, à droite: 4
+$@8 (43)
+    à gauche: 21, à droite: 23
+$@9 (44)
+    à gauche: 22, à droite: 23
+rNBR (45)
+    à gauche: 24 25 26 27 28 29 31, à droite: 18 19 26 27 28 29 31
+$@10 (46)
+    à gauche: 30, à droite: 31
+
+
+état 0
+
+    0 $accept: . start $end
+
+    tINT  décalage et aller à l'état 1
+
+    start  aller à l'état 2
+
+
+état 1
+
+    1 start: tINT . tMAIN tPAROUVR tPARFERM tACOOUVR rBODY tACOFERM
+
+    tMAIN  décalage et aller à l'état 3
+
+
+état 2
+
+    0 $accept: start . $end
+
+    $end  décalage et aller à l'état 4
+
+
+état 3
+
+    1 start: tINT tMAIN . tPAROUVR tPARFERM tACOOUVR rBODY tACOFERM
+
+    tPAROUVR  décalage et aller à l'état 5
+
+
+état 4
+
+    0 $accept: start $end .
+
+    $défaut  accepter
+
+
+état 5
+
+    1 start: tINT tMAIN tPAROUVR . tPARFERM tACOOUVR rBODY tACOFERM
+
+    tPARFERM  décalage et aller à l'état 6
+
+
+état 6
+
+    1 start: tINT tMAIN tPAROUVR tPARFERM . tACOOUVR rBODY tACOFERM
+
+    tACOOUVR  décalage et aller à l'état 7
+
+
+état 7
+
+    1 start: tINT tMAIN tPAROUVR tPARFERM tACOOUVR . rBODY tACOFERM
+
+    tINT     décalage et aller à l'état 8
+    tCONST   décalage et aller à l'état 9
+    tPRINTF  décalage et aller à l'état 10
+    tVAR     décalage et aller à l'état 11
+
+    $défaut  réduction par utilisation de la règle 5 (rBODY)
+
+    rBODY    aller à l'état 12
+    rDECL    aller à l'état 13
+    rAFFECT  aller à l'état 14
+    rPRINTF  aller à l'état 15
+
+
+état 8
+
+    8 rDECL: tINT . tVAR $@1 rAFFECT_DECL $@2 rMULTIPLEVAR
+
+    tVAR  décalage et aller à l'état 16
+
+
+état 9
+
+   11 rDECL: tCONST . tINT tVAR $@3 rAFFECT_DECL $@4 rMULTIPLEVAR
+
+    tINT  décalage et aller à l'état 17
+
+
+état 10
+
+   23 rPRINTF: tPRINTF . $@8 tPAROUVR tVAR $@9 tPARFERM tPTVIRGULE
+
+    $défaut  réduction par utilisation de la règle 21 ($@8)
+
+    $@8  aller à l'état 18
+
+
+état 11
+
+   18 rAFFECT: tVAR . tEGAL rNBR $@7 tPTVIRGULE
+
+    tEGAL  décalage et aller à l'état 19
+
+
+état 12
+
+    1 start: tINT tMAIN tPAROUVR tPARFERM tACOOUVR rBODY . tACOFERM
+
+    tACOFERM  décalage et aller à l'état 20
+
+
+état 13
+
+    2 rBODY: rDECL . rBODY
+
+    tINT     décalage et aller à l'état 8
+    tCONST   décalage et aller à l'état 9
+    tPRINTF  décalage et aller à l'état 10
+    tVAR     décalage et aller à l'état 11
+
+    $défaut  réduction par utilisation de la règle 5 (rBODY)
+
+    rBODY    aller à l'état 21
+    rDECL    aller à l'état 13
+    rAFFECT  aller à l'état 14
+    rPRINTF  aller à l'état 15
+
+
+état 14
+
+    3 rBODY: rAFFECT . rBODY
+
+    tINT     décalage et aller à l'état 8
+    tCONST   décalage et aller à l'état 9
+    tPRINTF  décalage et aller à l'état 10
+    tVAR     décalage et aller à l'état 11
+
+    $défaut  réduction par utilisation de la règle 5 (rBODY)
+
+    rBODY    aller à l'état 22
+    rDECL    aller à l'état 13
+    rAFFECT  aller à l'état 14
+    rPRINTF  aller à l'état 15
+
+
+état 15
+
+    4 rBODY: rPRINTF . rBODY
+
+    tINT     décalage et aller à l'état 8
+    tCONST   décalage et aller à l'état 9
+    tPRINTF  décalage et aller à l'état 10
+    tVAR     décalage et aller à l'état 11
+
+    $défaut  réduction par utilisation de la règle 5 (rBODY)
+
+    rBODY    aller à l'état 23
+    rDECL    aller à l'état 13
+    rAFFECT  aller à l'état 14
+    rPRINTF  aller à l'état 15
+
+
+état 16
+
+    8 rDECL: tINT tVAR . $@1 rAFFECT_DECL $@2 rMULTIPLEVAR
+
+    $défaut  réduction par utilisation de la règle 6 ($@1)
+
+    $@1  aller à l'état 24
+
+
+état 17
+
+   11 rDECL: tCONST tINT . tVAR $@3 rAFFECT_DECL $@4 rMULTIPLEVAR
+
+    tVAR  décalage et aller à l'état 25
+
+
+état 18
+
+   23 rPRINTF: tPRINTF $@8 . tPAROUVR tVAR $@9 tPARFERM tPTVIRGULE
+
+    tPAROUVR  décalage et aller à l'état 26
+
+
+état 19
+
+   18 rAFFECT: tVAR tEGAL . rNBR $@7 tPTVIRGULE
+
+    tPAROUVR  décalage et aller à l'état 27
+    tNBR      décalage et aller à l'état 28
+    tVAR      décalage et aller à l'état 29
+
+    rNBR  aller à l'état 30
+
+
+état 20
+
+    1 start: tINT tMAIN tPAROUVR tPARFERM tACOOUVR rBODY tACOFERM .
+
+    $défaut  réduction par utilisation de la règle 1 (start)
+
+
+état 21
+
+    2 rBODY: rDECL rBODY .
+
+    $défaut  réduction par utilisation de la règle 2 (rBODY)
+
+
+état 22
+
+    3 rBODY: rAFFECT rBODY .
+
+    $défaut  réduction par utilisation de la règle 3 (rBODY)
+
+
+état 23
+
+    4 rBODY: rPRINTF rBODY .
+
+    $défaut  réduction par utilisation de la règle 4 (rBODY)
+
+
+état 24
+
+    8 rDECL: tINT tVAR $@1 . rAFFECT_DECL $@2 rMULTIPLEVAR
+
+    tEGAL  décalage et aller à l'état 31
+
+    $défaut  réduction par utilisation de la règle 20 (rAFFECT_DECL)
+
+    rAFFECT_DECL  aller à l'état 32
+
+
+état 25
+
+   11 rDECL: tCONST tINT tVAR . $@3 rAFFECT_DECL $@4 rMULTIPLEVAR
+
+    $défaut  réduction par utilisation de la règle 9 ($@3)
+
+    $@3  aller à l'état 33
+
+
+état 26
+
+   23 rPRINTF: tPRINTF $@8 tPAROUVR . tVAR $@9 tPARFERM tPTVIRGULE
+
+    tVAR  décalage et aller à l'état 34
+
+
+état 27
+
+   31 rNBR: tPAROUVR . $@10 rNBR tPARFERM
+
+    $défaut  réduction par utilisation de la règle 30 ($@10)
+
+    $@10  aller à l'état 35
+
+
+état 28
+
+   25 rNBR: tNBR .
+
+    $défaut  réduction par utilisation de la règle 25 (rNBR)
+
+
+état 29
+
+   24 rNBR: tVAR .
+
+    $défaut  réduction par utilisation de la règle 24 (rNBR)
+
+
+état 30
+
+   18 rAFFECT: tVAR tEGAL rNBR . $@7 tPTVIRGULE
+   26 rNBR: rNBR . tPLUS rNBR
+   27     | rNBR . tMOINS rNBR
+   28     | rNBR . tMUL rNBR
+   29     | rNBR . tDIVISER rNBR
+
+    tMUL      décalage et aller à l'état 36
+    tPLUS     décalage et aller à l'état 37
+    tMOINS    décalage et aller à l'état 38
+    tDIVISER  décalage et aller à l'état 39
+
+    $défaut  réduction par utilisation de la règle 17 ($@7)
+
+    $@7  aller à l'état 40
+
+
+état 31
+
+   19 rAFFECT_DECL: tEGAL . rNBR
+
+    tPAROUVR  décalage et aller à l'état 27
+    tNBR      décalage et aller à l'état 28
+    tVAR      décalage et aller à l'état 29
+
+    rNBR  aller à l'état 41
+
+
+état 32
+
+    8 rDECL: tINT tVAR $@1 rAFFECT_DECL . $@2 rMULTIPLEVAR
+
+    $défaut  réduction par utilisation de la règle 7 ($@2)
+
+    $@2  aller à l'état 42
+
+
+état 33
+
+   11 rDECL: tCONST tINT tVAR $@3 . rAFFECT_DECL $@4 rMULTIPLEVAR
+
+    tEGAL  décalage et aller à l'état 31
+
+    $défaut  réduction par utilisation de la règle 20 (rAFFECT_DECL)
+
+    rAFFECT_DECL  aller à l'état 43
+
+
+état 34
+
+   23 rPRINTF: tPRINTF $@8 tPAROUVR tVAR . $@9 tPARFERM tPTVIRGULE
+
+    $défaut  réduction par utilisation de la règle 22 ($@9)
+
+    $@9  aller à l'état 44
+
+
+état 35
+
+   31 rNBR: tPAROUVR $@10 . rNBR tPARFERM
+
+    tPAROUVR  décalage et aller à l'état 27
+    tNBR      décalage et aller à l'état 28
+    tVAR      décalage et aller à l'état 29
+
+    rNBR  aller à l'état 45
+
+
+état 36
+
+   28 rNBR: rNBR tMUL . rNBR
+
+    tPAROUVR  décalage et aller à l'état 27
+    tNBR      décalage et aller à l'état 28
+    tVAR      décalage et aller à l'état 29
+
+    rNBR  aller à l'état 46
+
+
+état 37
+
+   26 rNBR: rNBR tPLUS . rNBR
+
+    tPAROUVR  décalage et aller à l'état 27
+    tNBR      décalage et aller à l'état 28
+    tVAR      décalage et aller à l'état 29
+
+    rNBR  aller à l'état 47
+
+
+état 38
+
+   27 rNBR: rNBR tMOINS . rNBR
+
+    tPAROUVR  décalage et aller à l'état 27
+    tNBR      décalage et aller à l'état 28
+    tVAR      décalage et aller à l'état 29
+
+    rNBR  aller à l'état 48
+
+
+état 39
+
+   29 rNBR: rNBR tDIVISER . rNBR
+
+    tPAROUVR  décalage et aller à l'état 27
+    tNBR      décalage et aller à l'état 28
+    tVAR      décalage et aller à l'état 29
+
+    rNBR  aller à l'état 49
+
+
+état 40
+
+   18 rAFFECT: tVAR tEGAL rNBR $@7 . tPTVIRGULE
+
+    tPTVIRGULE  décalage et aller à l'état 50
+
+
+état 41
+
+   19 rAFFECT_DECL: tEGAL rNBR .
+   26 rNBR: rNBR . tPLUS rNBR
+   27     | rNBR . tMOINS rNBR
+   28     | rNBR . tMUL rNBR
+   29     | rNBR . tDIVISER rNBR
+
+    tMUL      décalage et aller à l'état 36
+    tPLUS     décalage et aller à l'état 37
+    tMOINS    décalage et aller à l'état 38
+    tDIVISER  décalage et aller à l'état 39
+
+    $défaut  réduction par utilisation de la règle 19 (rAFFECT_DECL)
+
+
+état 42
+
+    8 rDECL: tINT tVAR $@1 rAFFECT_DECL $@2 . rMULTIPLEVAR
+
+    tCONST      décalage et aller à l'état 51
+    tPTVIRGULE  décalage et aller à l'état 52
+    tVIRGULE    décalage et aller à l'état 53
+
+    rMULTIPLEVAR  aller à l'état 54
+
+
+état 43
+
+   11 rDECL: tCONST tINT tVAR $@3 rAFFECT_DECL . $@4 rMULTIPLEVAR
+
+    $défaut  réduction par utilisation de la règle 10 ($@4)
+
+    $@4  aller à l'état 55
+
+
+état 44
+
+   23 rPRINTF: tPRINTF $@8 tPAROUVR tVAR $@9 . tPARFERM tPTVIRGULE
+
+    tPARFERM  décalage et aller à l'état 56
+
+
+état 45
+
+   26 rNBR: rNBR . tPLUS rNBR
+   27     | rNBR . tMOINS rNBR
+   28     | rNBR . tMUL rNBR
+   29     | rNBR . tDIVISER rNBR
+   31     | tPAROUVR $@10 rNBR . tPARFERM
+
+    tPARFERM  décalage et aller à l'état 57
+    tMUL      décalage et aller à l'état 36
+    tPLUS     décalage et aller à l'état 37
+    tMOINS    décalage et aller à l'état 38
+    tDIVISER  décalage et aller à l'état 39
+
+
+état 46
+
+   26 rNBR: rNBR . tPLUS rNBR
+   27     | rNBR . tMOINS rNBR
+   28     | rNBR . tMUL rNBR
+   28     | rNBR tMUL rNBR .
+   29     | rNBR . tDIVISER rNBR
+
+    $défaut  réduction par utilisation de la règle 28 (rNBR)
+
+
+état 47
+
+   26 rNBR: rNBR . tPLUS rNBR
+   26     | rNBR tPLUS rNBR .
+   27     | rNBR . tMOINS rNBR
+   28     | rNBR . tMUL rNBR
+   29     | rNBR . tDIVISER rNBR
+
+    tMUL      décalage et aller à l'état 36
+    tDIVISER  décalage et aller à l'état 39
+
+    $défaut  réduction par utilisation de la règle 26 (rNBR)
+
+
+état 48
+
+   26 rNBR: rNBR . tPLUS rNBR
+   27     | rNBR . tMOINS rNBR
+   27     | rNBR tMOINS rNBR .
+   28     | rNBR . tMUL rNBR
+   29     | rNBR . tDIVISER rNBR
+
+    tMUL      décalage et aller à l'état 36
+    tDIVISER  décalage et aller à l'état 39
+
+    $défaut  réduction par utilisation de la règle 27 (rNBR)
+
+
+état 49
+
+   26 rNBR: rNBR . tPLUS rNBR
+   27     | rNBR . tMOINS rNBR
+   28     | rNBR . tMUL rNBR
+   29     | rNBR . tDIVISER rNBR
+   29     | rNBR tDIVISER rNBR .
+
+    $défaut  réduction par utilisation de la règle 29 (rNBR)
+
+
+état 50
+
+   18 rAFFECT: tVAR tEGAL rNBR $@7 tPTVIRGULE .
+
+    $défaut  réduction par utilisation de la règle 18 (rAFFECT)
+
+
+état 51
+
+   15 rMULTIPLEVAR: tCONST . tVIRGULE tVAR $@6 rAFFECT_DECL rMULTIPLEVAR
+
+    tVIRGULE  décalage et aller à l'état 58
+
+
+état 52
+
+   16 rMULTIPLEVAR: tPTVIRGULE .
+
+    $défaut  réduction par utilisation de la règle 16 (rMULTIPLEVAR)
+
+
+état 53
+
+   13 rMULTIPLEVAR: tVIRGULE . tVAR $@5 rAFFECT_DECL rMULTIPLEVAR
+
+    tVAR  décalage et aller à l'état 59
+
+
+état 54
+
+    8 rDECL: tINT tVAR $@1 rAFFECT_DECL $@2 rMULTIPLEVAR .
+
+    $défaut  réduction par utilisation de la règle 8 (rDECL)
+
+
+état 55
+
+   11 rDECL: tCONST tINT tVAR $@3 rAFFECT_DECL $@4 . rMULTIPLEVAR
+
+    tCONST      décalage et aller à l'état 51
+    tPTVIRGULE  décalage et aller à l'état 52
+    tVIRGULE    décalage et aller à l'état 53
+
+    rMULTIPLEVAR  aller à l'état 60
+
+
+état 56
+
+   23 rPRINTF: tPRINTF $@8 tPAROUVR tVAR $@9 tPARFERM . tPTVIRGULE
+
+    tPTVIRGULE  décalage et aller à l'état 61
+
+
+état 57
+
+   31 rNBR: tPAROUVR $@10 rNBR tPARFERM .
+
+    $défaut  réduction par utilisation de la règle 31 (rNBR)
+
+
+état 58
+
+   15 rMULTIPLEVAR: tCONST tVIRGULE . tVAR $@6 rAFFECT_DECL rMULTIPLEVAR
+
+    tVAR  décalage et aller à l'état 62
+
+
+état 59
+
+   13 rMULTIPLEVAR: tVIRGULE tVAR . $@5 rAFFECT_DECL rMULTIPLEVAR
+
+    $défaut  réduction par utilisation de la règle 12 ($@5)
+
+    $@5  aller à l'état 63
+
+
+état 60
+
+   11 rDECL: tCONST tINT tVAR $@3 rAFFECT_DECL $@4 rMULTIPLEVAR .
+
+    $défaut  réduction par utilisation de la règle 11 (rDECL)
+
+
+état 61
+
+   23 rPRINTF: tPRINTF $@8 tPAROUVR tVAR $@9 tPARFERM tPTVIRGULE .
+
+    $défaut  réduction par utilisation de la règle 23 (rPRINTF)
+
+
+état 62
+
+   15 rMULTIPLEVAR: tCONST tVIRGULE tVAR . $@6 rAFFECT_DECL rMULTIPLEVAR
+
+    $défaut  réduction par utilisation de la règle 14 ($@6)
+
+    $@6  aller à l'état 64
+
+
+état 63
+
+   13 rMULTIPLEVAR: tVIRGULE tVAR $@5 . rAFFECT_DECL rMULTIPLEVAR
+
+    tEGAL  décalage et aller à l'état 31
+
+    $défaut  réduction par utilisation de la règle 20 (rAFFECT_DECL)
+
+    rAFFECT_DECL  aller à l'état 65
+
+
+état 64
+
+   15 rMULTIPLEVAR: tCONST tVIRGULE tVAR $@6 . rAFFECT_DECL rMULTIPLEVAR
+
+    tEGAL  décalage et aller à l'état 31
+
+    $défaut  réduction par utilisation de la règle 20 (rAFFECT_DECL)
+
+    rAFFECT_DECL  aller à l'état 66
+
+
+état 65
+
+   13 rMULTIPLEVAR: tVIRGULE tVAR $@5 rAFFECT_DECL . rMULTIPLEVAR
+
+    tCONST      décalage et aller à l'état 51
+    tPTVIRGULE  décalage et aller à l'état 52
+    tVIRGULE    décalage et aller à l'état 53
+
+    rMULTIPLEVAR  aller à l'état 67
+
+
+état 66
+
+   15 rMULTIPLEVAR: tCONST tVIRGULE tVAR $@6 rAFFECT_DECL . rMULTIPLEVAR
+
+    tCONST      décalage et aller à l'état 51
+    tPTVIRGULE  décalage et aller à l'état 52
+    tVIRGULE    décalage et aller à l'état 53
+
+    rMULTIPLEVAR  aller à l'état 68
+
+
+état 67
+
+   13 rMULTIPLEVAR: tVIRGULE tVAR $@5 rAFFECT_DECL rMULTIPLEVAR .
+
+    $défaut  réduction par utilisation de la règle 13 (rMULTIPLEVAR)
+
+
+état 68
+
+   15 rMULTIPLEVAR: tCONST tVIRGULE tVAR $@6 rAFFECT_DECL rMULTIPLEVAR .
+
+    $défaut  réduction par utilisation de la règle 15 (rMULTIPLEVAR)

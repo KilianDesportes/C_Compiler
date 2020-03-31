@@ -1,0 +1,62 @@
+Table des symboles
+
+Contexte:
+- Nous avons récupéré les valeurs des chiffres entiers (tNB) et le contenu d'identifiant (tID) de Lex à Yacc avec %union{} et yylval.
+- Nous pouvons faire des calculs simples avec $$ et $1 etc.
+
+Objectif:
+- Gérer les tID : définition, affectation.
+- Vérifier que c'est sémantiquement correct: pas de double définition, variable définie avant affecter, les constants ont été initialisé...
+
+Explications:
+
+1. Créer nouveau fichier "symboltable.c" et "symboltable.h".
+
+=> Mettre à jour votre makefile: ajouter le fichier ".c" dans la ligne gcc. Inclus le fichier ".h" dans Yacc, zone définition.
+
+2. Créer un tableau pour mettre les informations qu'il nous faut.
+
+Quelles sont les informations nécessaires?
+- Son nom, donc "id", il est une chaine de caractères.
+- Là où il se trouve dans le mémoire, "address" (note 1)
+- S'il est un constant, "const", dans ce cas il faut qu'il soit initialisé (on peut vérifier dans yacc), et que l'on ne puisse pas modifier sa valeur
+- S'il a été initialisé, "init". On aimerait peut-être vérifier que l'on n'a pas utilisé une valeur non initialisée (c'est autorisé en C, donc à vous de voir si vous voulez l'inclure dans votre compilateur)
+- Et, un dernier qui n'est pas évident à penser, le profondeur des variables, "depth" (note 2)
+
+*note 1 sur adresse:
+Pour les machines que nous utilisent, que vous avez entendu dire 32-bit ou 64-bit, il y a une règle de 1 adresse = 1 octet (byte) = 8 bits.
+Dans notre cas, c'est un processeur de 16-bit. Mais pour simplifier la vie, nous choisissons d'utiliser 1 adresse = 16 bits. Comme ça, chaque entier occupe une adresse, et les adresses peuvent être 0, 1, 2... 1000, 1001, 1002...
+Nous pouvons simplement utiliser indice de cette table de symboles comme adresse dans le mémoire.
+Sachant que dans une situation plus complexe, il faut un champ adresse dédiée, car les adresses ne débutent pas forcément par 0; et l'incrémentation de l'adresse n'est pas forcément 1 (par exemple 4 pour un entier 32bits, 2 pour un short, 1 pour un char : il faut aussi ajouter un champ "type/size").
+
+*note 2 sur profondeur:
+
+Imaginons le code suivant:
+```
+main () {
+    int a = 4;
+    if (1) {
+        int a = 3;
+        int b = 7;
+        printf(a); // 3
+    }
+    printf(a); // 4
+    printf(b); // error
+}
+```
+
+Ce code est correct en C (à syntaxe près). C'est une notion de portée de variable, que la variable a déclaré dans "if" n'est valable que dans le "if".
+
+=> Créer un tableau de taille fixe, mais suffisamment grande (>50) avec struct du C. Il contient au moins les champs "id", "const", "depth".
+
+3. Gestion de la profondeur
+
+Quand est-ce qu'il faut modifier profondeur? "{" incrément, et "}" décrément.
+Comment implémenter la variation de profondeur? Soit variable globale dans Yacc (défini dans la partie définition), soit gérer par fonction dans le fichier "symboltable.c".
+Comment vérifie si une double définition existe? même id et même depth.
+Comment vérifie si une variable a été définie, et s'il y a plusieurs de même id, mais profondeur différente? id existe, depth le plus grand.
+Qu'est-ce qu'il faut faire quand on décrément la profondeur? Supprimer les variables de cette profondeur.
+
+4. Créer les variables et les fonctions pour gérer la table.
+
+A vous de réfléchir.
