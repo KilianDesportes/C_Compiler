@@ -62,8 +62,12 @@
      tESPACE = 278,
      tVIRGULE = 279,
      tPOINT = 280,
-     tNBR = 281,
-     tVAR = 282
+     tELSE = 281,
+     tINF = 282,
+     tSUP = 283,
+     tNBR = 284,
+     tVAR = 285,
+     tIF = 286
    };
 #endif
 /* Tokens.  */
@@ -90,8 +94,12 @@
 #define tESPACE 278
 #define tVIRGULE 279
 #define tPOINT 280
-#define tNBR 281
-#define tVAR 282
+#define tELSE 281
+#define tINF 282
+#define tSUP 283
+#define tNBR 284
+#define tVAR 285
+#define tIF 286
 
 
 
@@ -101,7 +109,7 @@ typedef union YYSTYPE
 {
 
 /* Line 1676 of yacc.c  */
-#line 91 "src_v2.y"
+#line 103 "src_v2.y"
 
   int nb; 
   char var[50];
@@ -109,7 +117,7 @@ typedef union YYSTYPE
 
 
 /* Line 1676 of yacc.c  */
-#line 113 "y.tab.h"
+#line 121 "y.tab.h"
 } YYSTYPE;
 # define YYSTYPE_IS_TRIVIAL 1
 # define yystype YYSTYPE /* obsolescent; will be withdrawn */

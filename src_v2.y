@@ -25,7 +25,24 @@ typedef struct{
 t_symbol tab_symbol[256];
 int index_tab_symbol = 0;
 
+int nb_line_asm = 0;
+
+
+/* PRINCIPE POUR IF/ELSE ---->
+
+FAIRE UN TABLEAU DINSTRUCTION 
+AJOUTER PETIT A PETIT LES instructions
+ET POUR LE IF/ELSE ON AJOUTE JMP ET JMPF A LA LIGNE SOUHAITEE
+ET ON DECALE TOUT LE RESTE DANS LE TABLEAU
+*/
+
+int labels[50];
+
 char last_variable[50];
+
+int get_nb_line_asm(){
+  return nb_line_asm;
+}
 
 void push(char * str_variable_name, int bool_is_constant){
 
@@ -81,11 +98,15 @@ void printTab(){
 
 }
 
+void patch(int from, int to){
+  labels[from] = to;
+}
+
 
 %}
 
 %token tINT tMAIN tCONST tPARFERM tPAROUVR tCROFERM tCROOUVR tACOFERM tACOOUVR tCHAR tMUL tNEWLINE tTAB tBACKSPACE;
-%token tPLUS tMOINS tPRINTF tDIVISER tEGAL tPTVIRGULE tESPACE tVIRGULE tPOINT;
+%token tPLUS tMOINS tPRINTF tDIVISER tEGAL tPTVIRGULE tESPACE tVIRGULE tPOINT tELSE tINF tSUP;
 
 %union 
 {
@@ -95,6 +116,7 @@ void printTab(){
 
 %token <nb> tNBR;
 %token <var> tVAR;
+%token <nb> tIF;
 
 %type <nb> rNBR;
 %type <nb> rAFFECT_DECL;
@@ -120,8 +142,81 @@ start : tINT
 rBODY : rDECL rBODY 
       | rAFFECT rBODY 
       | rPRINTF rBODY 
+      | rIF rBODY
       | 
       ;
+
+rIF : tIF 
+      tPAROUVR 
+      rEXPR_COMP 
+      tPARFERM 
+      tACOOUVR {
+        int line = get_nb_line_asm();
+        fprintf(yyout,"LINE : %d\n",line);
+        $1 = line;
+        nb_line_asm++;
+      }
+      rBODY {
+        int current = get_nb_line_asm();
+        fprintf(yyout,"LINE : %d\n",current);
+        patch($1,current+2);
+        fprintf(yyout,"JMPF %d\n",labels[$1]);
+        nb_line_asm++;
+        $1 = nb_line_asm;
+      }
+      tACOFERM
+      tELSE
+      tACOOUVR
+      rBODY 
+      {
+        int current = get_nb_line_asm() ; 
+			  patch($1, current + 1) ;
+        fprintf(yyout,"JMP %d\n",labels[$1]);
+      }
+      tACOFERM
+      ;
+
+rEXPR_COMP : 
+        rNBR tEGAL tEGAL rNBR 
+        {
+          int result = 0;
+          if($1 == $4){
+            result = 1;
+          }
+          fprintf(yyout,"EQU %d %d %d\n",result,$1,$4);
+          nb_line_asm++;
+        }
+        | 
+        rNBR tINF rNBR 
+        {
+          int result = 0;
+          if($1 < $3){
+            result = 1;
+          }
+          fprintf(yyout,"INF %d %d %d\n",result,$1,$3);
+          nb_line_asm++;
+        }
+        | 
+        rNBR tSUP rNBR 
+        {
+          int result = 0;
+          if($1 > $3){
+            result = 1;
+          }
+          fprintf(yyout,"SUP %d %d %d\n",result,$1,$3);
+          nb_line_asm++;
+        }
+        | 
+        tNBR
+        {
+          int result = 0;
+          if($1 > 0){
+            result = 1;
+          }
+          fprintf(yyout,"SUP %d %d %d\n",result,$1,0);
+          nb_line_asm++;
+        }
+        ;
 
 rDECL : tINT 
         tVAR { 
@@ -164,6 +259,7 @@ rAFFECT : tVAR
           int adr_var = find_symbol($1);
           int adr_expr = get_last_symbol();
           fprintf(yyout,"COP %d %d\n",adr_var,adr_expr);
+          nb_line_asm++;
           pop();
           }
           tPTVIRGULE { fprintf(yyout,"\n"); } 
@@ -175,6 +271,7 @@ rAFFECT_DECL : tEGAL
             int adr_var = find_symbol(last_variable);
             int adr_expr = get_last_symbol();
             fprintf(yyout,"COP %d %d\n",adr_var,adr_expr);
+            nb_line_asm++;
             pop();
           }
           |
@@ -192,31 +289,49 @@ rNBR : tVAR {
           int adr_var = find_symbol($1);
           int adr_expr = get_last_symbol();
           fprintf(yyout,"COP %d %d\n",adr_expr,adr_var);
+          nb_line_asm++;
+
         } 
       | tNBR { 
           push("$",1);   
-          printTab();
           int adr_expr = get_last_symbol();
           fprintf(yyout,"AFC %d %d\n",adr_expr,$1);
+          nb_line_asm++;
         }
       | rNBR 
         tPLUS 
         rNBR { int first_operand = get_last_symbol()-1;
         int second_operand = get_last_symbol();
         fprintf(yyout,"ADD %d %d %d\n",first_operand,first_operand,second_operand);
+        nb_line_asm++;
         pop(); }
       | rNBR 
         tMOINS 
         rNBR  
+        { int first_operand = get_last_symbol()-1;
+        int second_operand = get_last_symbol();
+        fprintf(yyout,"SOU %d %d %d\n",first_operand,first_operand,second_operand);
+        nb_line_asm++;
+        pop(); }
       | rNBR  
         tMUL
         rNBR 
+        { int first_operand = get_last_symbol()-1;
+        int second_operand = get_last_symbol();
+        fprintf(yyout,"MUL %d %d %d\n",first_operand,first_operand,second_operand);
+        nb_line_asm++;
+        pop(); }
       | rNBR  
         tDIVISER
         rNBR
-      | tPAROUVR  { fprintf(yyout,"("); } 
+        { int first_operand = get_last_symbol()-1;
+        int second_operand = get_last_symbol();
+        fprintf(yyout,"DIV %d %d %d\n",first_operand,first_operand,second_operand);
+        nb_line_asm++;
+        pop(); }
+      | tPAROUVR
         rNBR 
-        tPARFERM { fprintf(yyout,")"); } 
+        tPARFERM
       ;
 
 %% 

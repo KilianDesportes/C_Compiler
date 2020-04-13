@@ -29,6 +29,10 @@
 " " {}
 "," return tVIRGULE;
 "." return tPOINT;
+"if" return tIF;
+"else" return tELSE;
+"<" return tINF;
+">" return tSUP;
 [a-zA-Z][a-zA-Z0-9_]* {
     strcpy(yylval.var,yytext);
     return tVAR;

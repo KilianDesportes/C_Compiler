@@ -1,37 +1,14 @@
 
-Size is : 4
-SymbolTab : INDEX : 0 - NAME : i - CONSTANT : 0
-SymbolTab : INDEX : 1 - NAME : j - CONSTANT : 0
-SymbolTab : INDEX : 2 - NAME : k - CONSTANT : 0
-SymbolTab : INDEX : 3 - NAME : r - CONSTANT : 0
-SymbolTab : INDEX : 4 - NAME : $ - CONSTANT : 1
-AFC 4 3
-COP 0 4
+AFC 1 1
+AFC 2 2
+EQU 0 1 2
+LINE : 3
+AFC 3 123
+COP 0 3
 
-Size is : 4
-SymbolTab : INDEX : 0 - NAME : i - CONSTANT : 0
-SymbolTab : INDEX : 1 - NAME : j - CONSTANT : 0
-SymbolTab : INDEX : 2 - NAME : k - CONSTANT : 0
-SymbolTab : INDEX : 3 - NAME : r - CONSTANT : 0
-SymbolTab : INDEX : 4 - NAME : $ - CONSTANT : 1
-AFC 4 5
-COP 1 4
+LINE : 6
+JMPF 8
+AFC 3 321
+COP 0 3
 
-Size is : 4
-SymbolTab : INDEX : 0 - NAME : i - CONSTANT : 0
-SymbolTab : INDEX : 1 - NAME : j - CONSTANT : 0
-SymbolTab : INDEX : 2 - NAME : k - CONSTANT : 0
-SymbolTab : INDEX : 3 - NAME : r - CONSTANT : 0
-SymbolTab : INDEX : 4 - NAME : $ - CONSTANT : 1
-AFC 4 8
-COP 2 4
-
-(COP 4 0
-COP 5 1
-ADD 4 4 5
-)(COP 5 0
-COP 6 2
-COP 7 1
-ADD 6 6 7
-)COP 3 6
-
+JMP 10
