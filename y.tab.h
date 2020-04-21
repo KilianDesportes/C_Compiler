@@ -67,7 +67,8 @@
      tSUP = 283,
      tNBR = 284,
      tVAR = 285,
-     tIF = 286
+     tIF = 286,
+     tWHILE = 287
    };
 #endif
 /* Tokens.  */
@@ -100,6 +101,7 @@
 #define tNBR 284
 #define tVAR 285
 #define tIF 286
+#define tWHILE 287
 
 
 
@@ -117,7 +119,7 @@ typedef union YYSTYPE
 
 
 /* Line 1676 of yacc.c  */
-#line 121 "y.tab.h"
+#line 123 "y.tab.h"
 } YYSTYPE;
 # define YYSTYPE_IS_TRIVIAL 1
 # define yystype YYSTYPE /* obsolescent; will be withdrawn */

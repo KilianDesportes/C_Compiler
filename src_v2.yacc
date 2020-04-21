@@ -36,7 +36,7 @@ ET POUR LE IF/ELSE ON AJOUTE JMP ET JMPF A LA LIGNE SOUHAITEE
 ET ON DECALE TOUT LE RESTE DANS LE TABLEAU
 */
 
-int labels[50];
+int line_test_while;
 
 char last_variable[50];
 
@@ -130,11 +130,12 @@ void patchJMP(int pos, int to){
 %token <nb> tNBR;
 %token <var> tVAR;
 %token <nb> tIF;
+%token <nb> tWHILE;
 
 %type <nb> rEXPR;
-%type <nb> rAFFECT_DECL;
-%type <nb> rDECL;
 %type <nb> rEXPR_COMP;
+%type <nb> rIF_ELSE;
+%type <nb> rWHILE;
 
 %right tEGAL
 %left tPLUS tMOINS
@@ -157,6 +158,7 @@ rBODY : rDECL rBODY
       | rAFFECT rBODY 
       | rPRINTF rBODY 
       | rIF_ELSE rBODY;
+      | rWHILE rBODY;
       |
       ;
 
@@ -192,6 +194,32 @@ rIF_ELSE : tIF
         
         nb_line_asm++;
         $1 = nb_line_asm;
+      }
+      tACOFERM
+      ;
+
+rWHILE : tWHILE 
+      tPAROUVR 
+      rEXPR_COMP 
+      tPARFERM 
+      tACOOUVR {
+        int line = get_nb_line_asm();
+        line_test_while = line;
+        $1 = ftell(yyout);
+        fprintf(yyout,"            \n");
+        nb_line_asm++;
+      }
+      rBODY {
+        int current = get_nb_line_asm();
+
+        patchJMPF($1,$3,current+2);
+
+        nb_line_asm++;
+
+        fprintf(yyout,"JMP %d\n",line_test_while);
+
+        nb_line_asm++;
+
       }
       tACOFERM
       ;
@@ -280,7 +308,11 @@ rAFFECT_DECL : tEGAL
 
 rPRINTF : tPRINTF
           tPAROUVR
-          tVAR
+          tVAR {
+            int index = find_symbol($3);
+            fprintf(yyout,"PRI %d\n",index);
+            nb_line_asm++;
+          }
           tPARFERM
           tPTVIRGULE
         ;
@@ -332,7 +364,7 @@ rEXPR : tVAR {
         nb_line_asm++;
         pop(); }
       | tPAROUVR
-        rEXPR 
+        rEXPR
         tPARFERM
       ;
 
