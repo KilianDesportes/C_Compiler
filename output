@@ -1,14 +1,9 @@
-
 AFC 1 1
-AFC 2 2
-EQU 0 1 2
-LINE : 3
+COP 0 1
+COP 1 0
+AFC 2 12
+EQU 0 0 2
+JMPF   0  10
 AFC 3 123
 COP 0 3
-
-LINE : 6
-JMPF 8
-AFC 3 321
-COP 0 3
-
-JMP 10
+       

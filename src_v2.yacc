@@ -44,6 +44,18 @@ int get_nb_line_asm(){
   return nb_line_asm;
 }
 
+void printTab(){
+
+  fprintf(yyout,"Size is : %d\n",index_tab_symbol-1);
+
+  int index = 0;
+  while(index < index_tab_symbol){
+    fprintf(yyout,"SymbolTab : INDEX : %d - NAME : %s - CONSTANT : %d\n",index,tab_symbol[index].name,tab_symbol[index].constant);
+    index++;
+  }
+
+}
+
 void push(char * str_variable_name, int bool_is_constant){
 
   int bool_symbol_exist = find_symbol(str_variable_name);
@@ -86,20 +98,21 @@ int get_last_symbol(){
   return index_tab_symbol-1;
 }
 
-void printTab(){
 
-  fprintf(yyout,"Size is : %d\n",index_tab_symbol-1);
+void patchJMPF(int pos, int test, int to){
 
-  int index = 0;
-  while(index < index_tab_symbol){
-    fprintf(yyout,"SymbolTab : INDEX : %d - NAME : %s - CONSTANT : %d\n",index,tab_symbol[index].name,tab_symbol[index].constant);
-    index++;
-  }
+  fseek(yyout,pos,SEEK_SET);
+  fprintf(yyout,"JMPF %3d %3d\n",test,to);
+  fseek(yyout,0,SEEK_END);
 
 }
 
-void patch(int from, int to){
-  labels[from] = to;
+void patchJMP(int pos, int to){
+
+  fseek(yyout,pos,SEEK_SET);
+  fprintf(yyout,"JMP %3d\n",to);
+  fseek(yyout,0,SEEK_END);
+
 }
 
 
@@ -118,9 +131,10 @@ void patch(int from, int to){
 %token <var> tVAR;
 %token <nb> tIF;
 
-%type <nb> rNBR;
+%type <nb> rEXPR;
 %type <nb> rAFFECT_DECL;
 %type <nb> rDECL;
+%type <nb> rEXPR_COMP;
 
 %right tEGAL
 %left tPLUS tMOINS
@@ -142,27 +156,30 @@ start : tINT
 rBODY : rDECL rBODY 
       | rAFFECT rBODY 
       | rPRINTF rBODY 
-      | rIF rBODY
-      | 
+      | rIF_ELSE rBODY;
+      |
       ;
 
-rIF : tIF 
+
+rIF_ELSE : tIF 
       tPAROUVR 
       rEXPR_COMP 
       tPARFERM 
       tACOOUVR {
         int line = get_nb_line_asm();
-        fprintf(yyout,"LINE : %d\n",line);
-        $1 = line;
+        $1 = ftell(yyout);
+        fprintf(yyout,"            \n");
         nb_line_asm++;
       }
       rBODY {
         int current = get_nb_line_asm();
-        fprintf(yyout,"LINE : %d\n",current);
-        patch($1,current+2);
-        fprintf(yyout,"JMPF %d\n",labels[$1]);
+
+        patchJMPF($1,$3,current+2);
+        
+        $1 = ftell(yyout);
+        fprintf(yyout,"       \n");
+
         nb_line_asm++;
-        $1 = nb_line_asm;
       }
       tACOFERM
       tELSE
@@ -170,50 +187,34 @@ rIF : tIF
       rBODY 
       {
         int current = get_nb_line_asm() ; 
-			  patch($1, current + 1) ;
-        fprintf(yyout,"JMP %d\n",labels[$1]);
+
+			  patchJMP($1,current+1);
+        
+        nb_line_asm++;
+        $1 = nb_line_asm;
       }
       tACOFERM
       ;
 
 rEXPR_COMP : 
-        rNBR tEGAL tEGAL rNBR 
+        rEXPR tEGAL tEGAL rEXPR 
         {
-          int result = 0;
-          if($1 == $4){
-            result = 1;
-          }
-          fprintf(yyout,"EQU %d %d %d\n",result,$1,$4);
+          fprintf(yyout,"EQU %d %d %d\n",$1,$1,$4);
+          $$ = $1;
           nb_line_asm++;
         }
         | 
-        rNBR tINF rNBR 
+        rEXPR tINF rEXPR 
         {
-          int result = 0;
-          if($1 < $3){
-            result = 1;
-          }
-          fprintf(yyout,"INF %d %d %d\n",result,$1,$3);
+          fprintf(yyout,"INF %d %d %d\n",$1,$1,$3);
+          $$ = $1;
           nb_line_asm++;
         }
         | 
-        rNBR tSUP rNBR 
+        rEXPR tSUP rEXPR 
         {
-          int result = 0;
-          if($1 > $3){
-            result = 1;
-          }
-          fprintf(yyout,"SUP %d %d %d\n",result,$1,$3);
-          nb_line_asm++;
-        }
-        | 
-        tNBR
-        {
-          int result = 0;
-          if($1 > 0){
-            result = 1;
-          }
-          fprintf(yyout,"SUP %d %d %d\n",result,$1,0);
+          fprintf(yyout,"SUP %d %d %d\n",$1,$1,$3);
+          $$ = $1;
           nb_line_asm++;
         }
         ;
@@ -249,12 +250,12 @@ rMULTIPLEVAR :  tVIRGULE
                 }
                 rAFFECT_DECL
                 rMULTIPLEVAR 
-              | tPTVIRGULE { fprintf(yyout,"\n"); } 
+              | tPTVIRGULE
 ;
 
 rAFFECT : tVAR  
           tEGAL 
-          rNBR         
+          rEXPR         
           {
           int adr_var = find_symbol($1);
           int adr_expr = get_last_symbol();
@@ -262,11 +263,11 @@ rAFFECT : tVAR
           nb_line_asm++;
           pop();
           }
-          tPTVIRGULE { fprintf(yyout,"\n"); } 
+          tPTVIRGULE
         ;
 
 rAFFECT_DECL : tEGAL
-          rNBR
+          rEXPR
           {
             int adr_var = find_symbol(last_variable);
             int adr_expr = get_last_symbol();
@@ -277,60 +278,61 @@ rAFFECT_DECL : tEGAL
           |
           ;
 
-rPRINTF : tPRINTF { fprintf(yyout,"printf "); } 
+rPRINTF : tPRINTF
           tPAROUVR
-          tVAR { fprintf(yyout,"%s",$4); } 
+          tVAR
           tPARFERM
-          tPTVIRGULE { fprintf(yyout,"\n"); } 
+          tPTVIRGULE
         ;
 
-rNBR : tVAR { 
+rEXPR : tVAR { 
           push("$",1); 
           int adr_var = find_symbol($1);
           int adr_expr = get_last_symbol();
           fprintf(yyout,"COP %d %d\n",adr_expr,adr_var);
           nb_line_asm++;
-
+          $$ = adr_var;
         } 
       | tNBR { 
           push("$",1);   
           int adr_expr = get_last_symbol();
           fprintf(yyout,"AFC %d %d\n",adr_expr,$1);
           nb_line_asm++;
+          $$ = adr_expr;
         }
-      | rNBR 
+      | rEXPR 
         tPLUS 
-        rNBR { int first_operand = get_last_symbol()-1;
+        rEXPR { int first_operand = get_last_symbol()-1;
         int second_operand = get_last_symbol();
         fprintf(yyout,"ADD %d %d %d\n",first_operand,first_operand,second_operand);
         nb_line_asm++;
         pop(); }
-      | rNBR 
+      | rEXPR 
         tMOINS 
-        rNBR  
+        rEXPR  
         { int first_operand = get_last_symbol()-1;
         int second_operand = get_last_symbol();
         fprintf(yyout,"SOU %d %d %d\n",first_operand,first_operand,second_operand);
         nb_line_asm++;
         pop(); }
-      | rNBR  
+      | rEXPR  
         tMUL
-        rNBR 
+        rEXPR 
         { int first_operand = get_last_symbol()-1;
         int second_operand = get_last_symbol();
         fprintf(yyout,"MUL %d %d %d\n",first_operand,first_operand,second_operand);
         nb_line_asm++;
         pop(); }
-      | rNBR  
+      | rEXPR  
         tDIVISER
-        rNBR
+        rEXPR
         { int first_operand = get_last_symbol()-1;
         int second_operand = get_last_symbol();
         fprintf(yyout,"DIV %d %d %d\n",first_operand,first_operand,second_operand);
         nb_line_asm++;
         pop(); }
       | tPAROUVR
-        rNBR 
+        rEXPR 
         tPARFERM
       ;
 

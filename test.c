@@ -1,8 +1,9 @@
 int main(){ 
-    int a;
-    if ( 1 == 2 ) {
+    int a = 1;
+
+
+    if ( a == 12 ) {
         a = 123;
-    }else{
-        a = 321;
     }
+
 }
