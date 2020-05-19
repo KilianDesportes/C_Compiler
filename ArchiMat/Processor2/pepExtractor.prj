@@ -1,0 +1,5 @@
+work	"../ALU/ALU.vhd"
+work	"../InstructionMemory/InstructionMemory.vhd"
+work	"../MemoryBench/memoryBench.vhd"
+work	"../Processor/Processor.vhd"
+work	"../RegisterBench/registerBench.vhd"

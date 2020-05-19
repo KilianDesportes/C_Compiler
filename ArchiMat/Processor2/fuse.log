@@ -1,0 +1,32 @@
+Running: C:\Xilinx\13.4\ISE_DS\ISE\bin\nt\unwrapped\fuse.exe -intstyle ise -incremental -lib secureip -o C:/Xilinx/13.4/ISE_DS/ArchiMat/Processor2/TestProc_isim_beh.exe -prj C:/Xilinx/13.4/ISE_DS/ArchiMat/Processor2/TestProc_beh.prj work.TestProc 
+ISim O.87xd (signature 0x2f00eba5)
+Number of CPUs detected in this system: 4
+Turning on mult-threading, number of parallel sub-compilation jobs: 8 
+Determining compilation order of HDL files
+Parsing VHDL file "C:/Xilinx/13.4/ISE_DS/ArchiMat/Processor2/../RegisterBench/registerBench.vhd" into library work
+Parsing VHDL file "C:/Xilinx/13.4/ISE_DS/ArchiMat/Processor2/../MemoryBench/memoryBench.vhd" into library work
+Parsing VHDL file "C:/Xilinx/13.4/ISE_DS/ArchiMat/Processor2/../InstructionMemory/InstructionMemory.vhd" into library work
+Parsing VHDL file "C:/Xilinx/13.4/ISE_DS/ArchiMat/Processor2/../ALU/ALU.vhd" into library work
+Parsing VHDL file "C:/Xilinx/13.4/ISE_DS/ArchiMat/Processor2/../Processor/Processor.vhd" into library work
+Parsing VHDL file "C:/Xilinx/13.4/ISE_DS/ArchiMat/Processor2/TestProc.vhd" into library work
+Starting static elaboration
+Completed static elaboration
+Fuse Memory Usage: 162012 KB
+Fuse CPU Usage: 234 ms
+Compiling package standard
+Compiling package std_logic_1164
+Compiling package std_logic_arith
+Compiling package std_logic_unsigned
+Compiling package numeric_std
+Compiling architecture behavioral of entity InstructionMemory [instructionmemory_default]
+Compiling architecture behavioral of entity RegisterBench [registerbench_default]
+Compiling architecture behavioral of entity ALU [alu_default]
+Compiling architecture datamemory of entity memoryBench [memorybench_default]
+Compiling architecture behavioral of entity Processor [processor_default]
+Compiling architecture behavior of entity testproc
+Time Resolution for simulation is 1ps.
+Waiting for 3 sub-compilation(s) to finish...
+Compiled 16 VHDL Units
+Built simulation executable C:/Xilinx/13.4/ISE_DS/ArchiMat/Processor2/TestProc_isim_beh.exe
+Fuse Memory Usage: 181864 KB
+Fuse CPU Usage: 374 ms

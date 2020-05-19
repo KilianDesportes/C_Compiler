@@ -1,0 +1,1 @@
+-intstyle "ise" -incremental -lib "secureip" -o "C:/Xilinx/13.4/ISE_DS/ArchiMat/Processor2/TestProc_isim_beh.exe" -prj "C:/Xilinx/13.4/ISE_DS/ArchiMat/Processor2/TestProc_beh.prj" "work.TestProc" 

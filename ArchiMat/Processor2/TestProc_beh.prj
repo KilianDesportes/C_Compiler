@@ -1,0 +1,6 @@
+vhdl work "../RegisterBench/registerBench.vhd"
+vhdl work "../MemoryBench/memoryBench.vhd"
+vhdl work "../InstructionMemory/InstructionMemory.vhd"
+vhdl work "../ALU/ALU.vhd"
+vhdl work "../Processor/Processor.vhd"
+vhdl work "TestProc.vhd"
